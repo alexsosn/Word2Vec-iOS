@@ -162,7 +162,7 @@ void LearnVocabFromTrainFile() {
   for (a = 0; a < vocab_hash_size; a++) vocab_hash[a] = -1;
   fin = fopen(train_file, "rb");
   if (fin == NULL) {
-    printf("ERROR: training data file not found!\n");
+    NSLog(@"ERROR: training data file not found!\n");
     exit(1);
   }
   vocab_size = 0;
@@ -176,7 +176,7 @@ void LearnVocabFromTrainFile() {
     } else start = 0;
     train_words++;
     if ((debug_mode > 1) && (train_words % 100000 == 0)) {
-      printf("Words processed: %lldK     Vocab size: %lldK  %c", train_words / 1000, vocab_size / 1000, 13);
+      NSLog(@"Words processed: %lldK     Vocab size: %lldK  %c", train_words / 1000, vocab_size / 1000, 13);
       fflush(stdout);
     }
     i = SearchVocab(word);
@@ -185,7 +185,7 @@ void LearnVocabFromTrainFile() {
       vocab[a].cn = 1;
     } else vocab[i].cn++;
     if (start) continue;
-    sprintf(bigram_word, "%s_%s", last_word, word);
+    sNSLog(bigram_word, "%s_%s", last_word, word);
     bigram_word[MAX_STRING - 1] = 0;
     strcpy(last_word, word);
     i = SearchVocab(bigram_word);
@@ -197,8 +197,8 @@ void LearnVocabFromTrainFile() {
   }
   SortVocab();
   if (debug_mode > 0) {
-    printf("\nVocab size (unigrams + bigrams): %lld\n", vocab_size);
-    printf("Words in train file: %lld\n", train_words);
+    NSLog(@"\nVocab size (unigrams + bigrams): %lld\n", vocab_size);
+    NSLog(@"Words in train file: %lld\n", train_words);
   }
   fclose(fin);
 }
@@ -208,7 +208,7 @@ void TrainModel() {
   char word[MAX_STRING], last_word[MAX_STRING], bigram_word[MAX_STRING * 2];
   real score;
   FILE *fo, *fin;
-  printf("Starting training using file %s\n", train_file);
+  NSLog(@"Starting training using file %s\n", train_file);
   LearnVocabFromTrainFile();
   fin = fopen(train_file, "rb");
   fo = fopen(output_file, "wb");
@@ -223,7 +223,7 @@ void TrainModel() {
     }
     cn++;
     if ((debug_mode > 1) && (cn % 100000 == 0)) {
-      printf("Words written: %lldK%c", cn / 1000, 13);
+      NSLog(@"Words written: %lldK%c", cn / 1000, 13);
       fflush(stdout);
     }
     oov = 0;
@@ -231,7 +231,7 @@ void TrainModel() {
     if (i == -1) oov = 1; else pb = vocab[i].cn;
     if (li == -1) oov = 1;
     li = i;
-    sprintf(bigram_word, "%s_%s", last_word, word);
+    sNSLog(bigram_word, "%s_%s", last_word, word);
     bigram_word[MAX_STRING - 1] = 0;
     i = SearchVocab(bigram_word);
     if (i == -1) oov = 1; else pab = vocab[i].cn;
@@ -252,7 +252,7 @@ int ArgPos(char *str, int argc, char **argv) {
   int a;
   for (a = 1; a < argc; a++) if (!strcmp(str, argv[a])) {
     if (a == argc - 1) {
-      printf("Argument missing for %s\n", str);
+      NSLog(@"Argument missing for %s\n", str);
       exit(1);
     }
     return a;
@@ -263,21 +263,21 @@ int ArgPos(char *str, int argc, char **argv) {
 int main(int argc, char **argv) {
   int i;
   if (argc == 1) {
-    printf("WORD2PHRASE tool v0.1a\n\n");
-    printf("Options:\n");
-    printf("Parameters for training:\n");
-    printf("\t-train <file>\n");
-    printf("\t\tUse text data from <file> to train the model\n");
-    printf("\t-output <file>\n");
-    printf("\t\tUse <file> to save the resulting word vectors / word clusters / phrases\n");
-    printf("\t-min-count <int>\n");
-    printf("\t\tThis will discard words that appear less than <int> times; default is 5\n");
-    printf("\t-threshold <float>\n");
-    printf("\t\t The <float> value represents threshold for forming the phrases (higher means less phrases); default 100\n");
-    printf("\t-debug <int>\n");
-    printf("\t\tSet the debug mode (default = 2 = more info during training)\n");
-    printf("\nExamples:\n");
-    printf("./word2phrase -train text.txt -output phrases.txt -threshold 100 -debug 2\n\n");
+    NSLog(@"WORD2PHRASE tool v0.1a\n\n");
+    NSLog(@"Options:\n");
+    NSLog(@"Parameters for training:\n");
+    NSLog(@"\t-train <file>\n");
+    NSLog(@"\t\tUse text data from <file> to train the model\n");
+    NSLog(@"\t-output <file>\n");
+    NSLog(@"\t\tUse <file> to save the resulting word vectors / word clusters / phrases\n");
+    NSLog(@"\t-min-count <int>\n");
+    NSLog(@"\t\tThis will discard words that appear less than <int> times; default is 5\n");
+    NSLog(@"\t-threshold <float>\n");
+    NSLog(@"\t\t The <float> value represents threshold for forming the phrases (higher means less phrases); default 100\n");
+    NSLog(@"\t-debug <int>\n");
+    NSLog(@"\t\tSet the debug mode (default = 2 = more info during training)\n");
+    NSLog(@"\nExamples:\n");
+    NSLog(@"./word2phrase -train text.txt -output phrases.txt -threshold 100 -debug 2\n\n");
     return 0;
   }
   if ((i = ArgPos((char *)"-train", argc, argv)) > 0) strcpy(train_file, argv[i + 1]);

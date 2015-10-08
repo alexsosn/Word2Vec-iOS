@@ -266,7 +266,7 @@ void LearnVocabFromTrainFile() {
   for (a = 0; a < vocab_hash_size; a++) vocab_hash[a] = -1;
   fin = fopen(train_file, "rb");
   if (fin == NULL) {
-    printf("ERROR: training data file not found!\n");
+    NSLog(@"ERROR: training data file not found!\n");
     exit(1);
   }
   vocab_size = 0;
@@ -276,7 +276,7 @@ void LearnVocabFromTrainFile() {
     if (feof(fin)) break;
     train_words++;
     if ((debug_mode > 1) && (train_words % 100000 == 0)) {
-      printf("%lldK%c", train_words / 1000, 13);
+      NSLog(@"%lldK%c", train_words / 1000, 13);
       fflush(stdout);
     }
     i = SearchVocab(word);
@@ -288,8 +288,8 @@ void LearnVocabFromTrainFile() {
   }
   SortVocab();
   if (debug_mode > 0) {
-    printf("Vocab size: %lld\n", vocab_size);
-    printf("Words in train file: %lld\n", train_words);
+    NSLog(@"Vocab size: %lld\n", vocab_size);
+    NSLog(@"Words in train file: %lld\n", train_words);
   }
   file_size = ftell(fin);
   fclose(fin);
@@ -308,7 +308,7 @@ void ReadVocab() {
   char word[MAX_STRING];
   FILE *fin = fopen(read_vocab_file, "rb");
   if (fin == NULL) {
-    printf("Vocabulary file not found\n");
+    NSLog(@"Vocabulary file not found\n");
     exit(1);
   }
   for (a = 0; a < vocab_hash_size; a++) vocab_hash[a] = -1;
@@ -322,12 +322,12 @@ void ReadVocab() {
   }
   SortVocab();
   if (debug_mode > 0) {
-    printf("Vocab size: %lld\n", vocab_size);
-    printf("Words in train file: %lld\n", train_words);
+    NSLog(@"Vocab size: %lld\n", vocab_size);
+    NSLog(@"Words in train file: %lld\n", train_words);
   }
   fin = fopen(train_file, "rb");
   if (fin == NULL) {
-    printf("ERROR: training data file not found!\n");
+    NSLog(@"ERROR: training data file not found!\n");
     exit(1);
   }
   fseek(fin, 0, SEEK_END);
@@ -339,16 +339,16 @@ void InitNet() {
   long long a, b;
   unsigned long long next_random = 1;
   a = posix_memalign((void **)&syn0, 128, (long long)vocab_size * layer1_size * sizeof(real));
-  if (syn0 == NULL) {printf("Memory allocation failed\n"); exit(1);}
+  if (syn0 == NULL) {NSLog(@"Memory allocation failed\n"); exit(1);}
   if (hs) {
     a = posix_memalign((void **)&syn1, 128, (long long)vocab_size * layer1_size * sizeof(real));
-    if (syn1 == NULL) {printf("Memory allocation failed\n"); exit(1);}
+    if (syn1 == NULL) {NSLog(@"Memory allocation failed\n"); exit(1);}
     for (a = 0; a < vocab_size; a++) for (b = 0; b < layer1_size; b++)
      syn1[a * layer1_size + b] = 0;
   }
   if (negative>0) {
     a = posix_memalign((void **)&syn1neg, 128, (long long)vocab_size * layer1_size * sizeof(real));
-    if (syn1neg == NULL) {printf("Memory allocation failed\n"); exit(1);}
+    if (syn1neg == NULL) {NSLog(@"Memory allocation failed\n"); exit(1);}
     for (a = 0; a < vocab_size; a++) for (b = 0; b < layer1_size; b++)
      syn1neg[a * layer1_size + b] = 0;
   }
@@ -376,7 +376,7 @@ void *TrainModelThread(void *id) {
       last_word_count = word_count;
       if ((debug_mode > 1)) {
         now=clock();
-        printf("%cAlpha: %f  Progress: %.2f%%  Words/thread/sec: %.2fk  ", 13, alpha,
+        NSLog(@"%cAlpha: %f  Progress: %.2f%%  Words/thread/sec: %.2fk  ", 13, alpha,
          word_count_actual / (real)(iter * train_words + 1) * 100,
          word_count_actual / ((real)(now - start + 1) / (real)CLOCKS_PER_SEC * 1000));
         fflush(stdout);
@@ -559,7 +559,7 @@ void TrainModel() {
   long a, b, c, d;
   FILE *fo;
   pthread_t *pt = (pthread_t *)malloc(num_threads * sizeof(pthread_t));
-  printf("Starting training using file %s\n", train_file);
+  NSLog(@"Starting training using file %s\n", train_file);
   starting_alpha = alpha;
   if (read_vocab_file[0] != 0) ReadVocab(); else LearnVocabFromTrainFile();
   if (save_vocab_file[0] != 0) SaveVocab();
@@ -630,7 +630,7 @@ int ArgPos(char *str, int argc, char **argv) {
   int a;
   for (a = 1; a < argc; a++) if (!strcmp(str, argv[a])) {
     if (a == argc - 1) {
-      printf("Argument missing for %s\n", str);
+      NSLog(@"Argument missing for %s\n", str);
       exit(1);
     }
     return a;
@@ -641,49 +641,49 @@ int ArgPos(char *str, int argc, char **argv) {
 int main(int argc, char **argv) {
   int i;
   if (argc == 1) {
-    printf("WORD VECTOR estimation toolkit v 0.1c\n\n");
-    printf("Options:\n");
-    printf("Parameters for training:\n");
-    printf("\t-train <file>\n");
-    printf("\t\tUse text data from <file> to train the model\n");
-    printf("\t-output <file>\n");
-    printf("\t\tUse <file> to save the resulting word vectors / word clusters\n");
-    printf("\t-size <int>\n");
-    printf("\t\tSet size of word vectors; default is 100\n");
-    printf("\t-window <int>\n");
-    printf("\t\tSet max skip length between words; default is 5\n");
-    printf("\t-sample <float>\n");
-    printf("\t\tSet threshold for occurrence of words. Those that appear with higher frequency in the training data\n");
-    printf("\t\twill be randomly down-sampled; default is 1e-3, useful range is (0, 1e-5)\n");
-    printf("\t-hs <int>\n");
-    printf("\t\tUse Hierarchical Softmax; default is 0 (not used)\n");
-    printf("\t-negative <int>\n");
-    printf("\t\tNumber of negative examples; default is 5, common values are 3 - 10 (0 = not used)\n");
-    printf("\t-threads <int>\n");
-    printf("\t\tUse <int> threads (default 12)\n");
-    printf("\t-iter <int>\n");
-    printf("\t\tRun more training iterations (default 5)\n");
-    printf("\t-min-count <int>\n");
-    printf("\t\tThis will discard words that appear less than <int> times; default is 5\n");
-    printf("\t-alpha <float>\n");
-    printf("\t\tSet the starting learning rate; default is 0.025 for skip-gram and 0.05 for CBOW\n");
-    printf("\t-classes <int>\n");
-    printf("\t\tOutput word classes rather than word vectors; default number of classes is 0 (vectors are written)\n");
-    printf("\t-debug <int>\n");
-    printf("\t\tSet the debug mode (default = 2 = more info during training)\n");
-    printf("\t-binary <int>\n");
-    printf("\t\tSave the resulting vectors in binary moded; default is 0 (off)\n");
-    printf("\t-save-vocab <file>\n");
-    printf("\t\tThe vocabulary will be saved to <file>\n");
-    printf("\t-read-vocab <file>\n");
-    printf("\t\tThe vocabulary will be read from <file>, not constructed from the training data\n");
-    printf("\t-cbow <int>\n");
-    printf("\t\tUse the continuous bag of words model; default is 1 (use 0 for skip-gram model)\n");
-    printf("\t-sentence-vectors <int>\n");
-    printf("\t\tAssume the first token at the beginning of each line is a sentence ID. This token will be trained\n");
-    printf("\t\twith full sentence context instead of just the window. Use 1 to turn on.\n");
-    printf("\nExamples:\n");
-    printf("./word2vec -train data.txt -output vec.txt -size 200 -window 5 -sample 1e-4 -negative 5 -hs 0 -binary 0 -cbow 1 -iter 3\n\n");
+    NSLog(@"WORD VECTOR estimation toolkit v 0.1c\n\n");
+    NSLog(@"Options:\n");
+    NSLog(@"Parameters for training:\n");
+    NSLog(@"\t-train <file>\n");
+    NSLog(@"\t\tUse text data from <file> to train the model\n");
+    NSLog(@"\t-output <file>\n");
+    NSLog(@"\t\tUse <file> to save the resulting word vectors / word clusters\n");
+    NSLog(@"\t-size <int>\n");
+    NSLog(@"\t\tSet size of word vectors; default is 100\n");
+    NSLog(@"\t-window <int>\n");
+    NSLog(@"\t\tSet max skip length between words; default is 5\n");
+    NSLog(@"\t-sample <float>\n");
+    NSLog(@"\t\tSet threshold for occurrence of words. Those that appear with higher frequency in the training data\n");
+    NSLog(@"\t\twill be randomly down-sampled; default is 1e-3, useful range is (0, 1e-5)\n");
+    NSLog(@"\t-hs <int>\n");
+    NSLog(@"\t\tUse Hierarchical Softmax; default is 0 (not used)\n");
+    NSLog(@"\t-negative <int>\n");
+    NSLog(@"\t\tNumber of negative examples; default is 5, common values are 3 - 10 (0 = not used)\n");
+    NSLog(@"\t-threads <int>\n");
+    NSLog(@"\t\tUse <int> threads (default 12)\n");
+    NSLog(@"\t-iter <int>\n");
+    NSLog(@"\t\tRun more training iterations (default 5)\n");
+    NSLog(@"\t-min-count <int>\n");
+    NSLog(@"\t\tThis will discard words that appear less than <int> times; default is 5\n");
+    NSLog(@"\t-alpha <float>\n");
+    NSLog(@"\t\tSet the starting learning rate; default is 0.025 for skip-gram and 0.05 for CBOW\n");
+    NSLog(@"\t-classes <int>\n");
+    NSLog(@"\t\tOutput word classes rather than word vectors; default number of classes is 0 (vectors are written)\n");
+    NSLog(@"\t-debug <int>\n");
+    NSLog(@"\t\tSet the debug mode (default = 2 = more info during training)\n");
+    NSLog(@"\t-binary <int>\n");
+    NSLog(@"\t\tSave the resulting vectors in binary moded; default is 0 (off)\n");
+    NSLog(@"\t-save-vocab <file>\n");
+    NSLog(@"\t\tThe vocabulary will be saved to <file>\n");
+    NSLog(@"\t-read-vocab <file>\n");
+    NSLog(@"\t\tThe vocabulary will be read from <file>, not constructed from the training data\n");
+    NSLog(@"\t-cbow <int>\n");
+    NSLog(@"\t\tUse the continuous bag of words model; default is 1 (use 0 for skip-gram model)\n");
+    NSLog(@"\t-sentence-vectors <int>\n");
+    NSLog(@"\t\tAssume the first token at the beginning of each line is a sentence ID. This token will be trained\n");
+    NSLog(@"\t\twith full sentence context instead of just the window. Use 1 to turn on.\n");
+    NSLog(@"\nExamples:\n");
+    NSLog(@"./word2vec -train data.txt -output vec.txt -size 200 -window 5 -sample 1e-4 -negative 5 -hs 0 -binary 0 -cbow 1 -iter 3\n\n");
     return 0;
   }
   output_file[0] = 0;

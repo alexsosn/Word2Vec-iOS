@@ -17,10 +17,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
         let model = Word2VecModel()
-        model.trainFile = ""
-        model.outputFile = ""
-        model.train()
+        model.trainFile = NSBundle.mainBundle().URLForResource("earth", withExtension: "html")
         
+        let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+        let documentsDirectory = paths[0]
+        let url = NSURL(fileURLWithPath: documentsDirectory).URLByAppendingPathComponent("out.bin")
+        
+        model.outputFile = url
+        model.train()
+        print(model.distance("краски"))
         
         // Override point for customization after application launch.
         return true

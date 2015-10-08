@@ -56,8 +56,8 @@ class Word2VecModel: NSObject {
     
     */
     
-    var trainFile: String!
-    var outputFile: String!
+    var trainFile: NSURL!
+    var outputFile: NSURL!
     var wordVectorSize: Int = 100
     var windowLength: Int = 5
     var wordsOccurrenceThreshold: Float = 1e-3
@@ -70,12 +70,12 @@ class Word2VecModel: NSObject {
     var classesNumber: Int = 0
     var debug: Int = 2
     var saveToBinary: Bool = false
-    var saveVocabFile: String?
-    var readVocabFile: String?
+    var saveVocabFile: NSURL?
+    var readVocabFile: NSURL?
     var continuousBagOfWords: Bool = true
     
     func train() -> () {
-        
+
         Prepare(
             trainFile,
             outputFile,
@@ -97,5 +97,9 @@ class Word2VecModel: NSObject {
         )
         
         TrainModel()
+    }
+    
+    func distance(word: String) -> [String : Float]? {
+        return Distance(outputFile, word) as! [String : Float]?
     }
 }

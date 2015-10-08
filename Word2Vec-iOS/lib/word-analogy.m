@@ -32,13 +32,13 @@ int main(int argc, char **argv) {
   float *M;
   char *vocab;
   if (argc < 2) {
-    printf("Usage: ./word-analogy <FILE>\nwhere FILE contains word projections in the BINARY FORMAT\n");
+    NSLog(@"Usage: ./word-analogy <FILE>\nwhere FILE contains word projections in the BINARY FORMAT\n");
     return 0;
   }
   strcpy(file_name, argv[1]);
   f = fopen(file_name, "rb");
   if (f == NULL) {
-    printf("Input file not found\n");
+    NSLog(@"Input file not found\n");
     return -1;
   }
   fscanf(f, "%lld", &words);
@@ -46,7 +46,7 @@ int main(int argc, char **argv) {
   vocab = (char *)malloc((long long)words * max_w * sizeof(char));
   M = (float *)malloc((long long)words * (long long)size * sizeof(float));
   if (M == NULL) {
-    printf("Cannot allocate memory: %lld MB    %lld  %lld\n", (long long)words * size * sizeof(float) / 1048576, words, size);
+    NSLog(@"Cannot allocate memory: %lld MB    %lld  %lld\n", (long long)words * size * sizeof(float) / 1048576, words, size);
     return -1;
   }
   for (b = 0; b < words; b++) {
@@ -67,7 +67,7 @@ int main(int argc, char **argv) {
   while (1) {
     for (a = 0; a < N; a++) bestd[a] = 0;
     for (a = 0; a < N; a++) bestw[a][0] = 0;
-    printf("Enter three words (EXIT to break): ");
+    NSLog(@"Enter three words (EXIT to break): ");
     a = 0;
     while (1) {
       st1[a] = fgetc(stdin);
@@ -95,21 +95,21 @@ int main(int argc, char **argv) {
     }
     cn++;
     if (cn < 3) {
-      printf("Only %lld words were entered.. three words are needed at the input to perform the calculation\n", cn);
+      NSLog(@"Only %lld words were entered.. three words are needed at the input to perform the calculation\n", cn);
       continue;
     }
     for (a = 0; a < cn; a++) {
       for (b = 0; b < words; b++) if (!strcmp(&vocab[b * max_w], st[a])) break;
       if (b == words) b = 0;
       bi[a] = b;
-      printf("\nWord: %s  Position in vocabulary: %lld\n", st[a], bi[a]);
+      NSLog(@"\nWord: %s  Position in vocabulary: %lld\n", st[a], bi[a]);
       if (b == 0) {
-        printf("Out of dictionary word!\n");
+        NSLog(@"Out of dictionary word!\n");
         break;
       }
     }
     if (b == 0) continue;
-    printf("\n                                              Word              Distance\n------------------------------------------------------------------------\n");
+    NSLog(@"\n                                              Word              Distance\n------------------------------------------------------------------------\n");
     for (a = 0; a < size; a++) vec[a] = M[a + bi[1] * size] - M[a + bi[0] * size] + M[a + bi[2] * size];
     len = 0;
     for (a = 0; a < size; a++) len += vec[a] * vec[a];
@@ -138,7 +138,7 @@ int main(int argc, char **argv) {
         }
       }
     }
-    for (a = 0; a < N; a++) printf("%50s\t\t%f\n", bestw[a], bestd[a]);
+    for (a = 0; a < N; a++) NSLog(@"%50s\t\t%f\n", bestw[a], bestd[a]);
   }
   return 0;
 }

@@ -4,10 +4,10 @@
 
 #import <Foundation/Foundation.h>
 
-void Prepare(NSString *trainFile,
-             NSString *outputFile,
-             NSString * _Nullable saveVocabFile,
-             NSString * _Nullable readVocabFile,
+void Prepare(NSURL * _Nonnull trainFile,
+             NSURL * _Nonnull outputFile,
+             NSURL * _Nullable saveVocabFile,
+             NSURL * _Nullable readVocabFile,
              NSNumber * _Nullable wordVectorSize,
              NSNumber * _Nullable debug,
              NSNumber * _Nullable saveToBinary,

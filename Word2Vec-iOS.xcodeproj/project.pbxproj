@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		2B1C4E0D1BC694CD009227C0 /* Word2VecModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1C4E0C1BC694CD009227C0 /* Word2VecModel.swift */; settings = {ASSET_TAGS = (); }; };
+		2B4A84F41BC7003C00F7F9E5 /* distance.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BD75A411BC69A2600D6B43B /* distance.m */; settings = {ASSET_TAGS = (); }; };
+		2B792A2E1BC6ECF00094D1C5 /* earth.html in Resources */ = {isa = PBXBuildFile; fileRef = 2B792A2D1BC6ECF00094D1C5 /* earth.html */; settings = {ASSET_TAGS = (); }; };
 		2BD75A501BC69A2600D6B43B /* word2vec.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BD75A4A1BC69A2600D6B43B /* word2vec.m */; settings = {ASSET_TAGS = (); }; };
 		2BFA44641BC6834D00BB50D8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BFA44631BC6834D00BB50D8 /* AppDelegate.swift */; };
 		2BFA44661BC6834D00BB50D8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BFA44651BC6834D00BB50D8 /* ViewController.swift */; };
@@ -29,6 +31,7 @@
 
 /* Begin PBXFileReference section */
 		2B1C4E0C1BC694CD009227C0 /* Word2VecModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Word2VecModel.swift; path = classes/Word2VecModel.swift; sourceTree = "<group>"; };
+		2B792A2D1BC6ECF00094D1C5 /* earth.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = earth.html; sourceTree = "<group>"; };
 		2BD355DF1BC687F5006B1100 /* Word2Vec-iOS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Word2Vec-iOS-Bridging-Header.h"; sourceTree = "<group>"; };
 		2BD75A3E1BC69A2600D6B43B /* compute-accuracy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "compute-accuracy.h"; sourceTree = "<group>"; };
 		2BD75A3F1BC69A2600D6B43B /* compute-accuracy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "compute-accuracy.m"; sourceTree = "<group>"; };
@@ -73,6 +76,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2B792A2C1BC6ECF00094D1C5 /* res */ = {
+			isa = PBXGroup;
+			children = (
+				2B792A2D1BC6ECF00094D1C5 /* earth.html */,
+			);
+			path = res;
+			sourceTree = "<group>";
+		};
 		2BD355E31BC68812006B1100 /* classes */ = {
 			isa = PBXGroup;
 			children = (
@@ -122,6 +133,7 @@
 		2BFA44621BC6834D00BB50D8 /* Word2Vec-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				2B792A2C1BC6ECF00094D1C5 /* res */,
 				2BD75A3D1BC69A2600D6B43B /* lib */,
 				2BD355E31BC68812006B1100 /* classes */,
 				2BFA44631BC6834D00BB50D8 /* AppDelegate.swift */,
@@ -194,6 +206,7 @@
 				TargetAttributes = {
 					2BFA445F1BC6834D00BB50D8 = {
 						CreatedOnToolsVersion = 7.0.1;
+						DevelopmentTeam = AUMEW37ZKN;
 					};
 					2BFA44731BC6834E00BB50D8 = {
 						CreatedOnToolsVersion = 7.0.1;
@@ -226,6 +239,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2BFA446E1BC6834D00BB50D8 /* LaunchScreen.storyboard in Resources */,
+				2B792A2E1BC6ECF00094D1C5 /* earth.html in Resources */,
 				2BFA446B1BC6834D00BB50D8 /* Assets.xcassets in Resources */,
 				2BFA44691BC6834D00BB50D8 /* Main.storyboard in Resources */,
 			);
@@ -247,6 +261,7 @@
 			files = (
 				2B1C4E0D1BC694CD009227C0 /* Word2VecModel.swift in Sources */,
 				2BFA44661BC6834D00BB50D8 /* ViewController.swift in Sources */,
+				2B4A84F41BC7003C00F7F9E5 /* distance.m in Sources */,
 				2BD75A501BC69A2600D6B43B /* word2vec.m in Sources */,
 				2BFA44641BC6834D00BB50D8 /* AppDelegate.swift in Sources */,
 			);
@@ -376,7 +391,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = "Word2Vec-iOS/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "OWL.Word2Vec-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -390,7 +407,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = "Word2Vec-iOS/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "OWL.Word2Vec-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";

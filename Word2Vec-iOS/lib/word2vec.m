@@ -19,7 +19,7 @@
 #include <stdlib.h>
 #import "word2vec.h"
 
-#define MAX_STRING 100
+#define MAX_STRING 1000
 #define EXP_TABLE_SIZE 1000
 #define MAX_EXP 6
 #define MAX_SENTENCE_LENGTH 1000
@@ -268,7 +268,7 @@ void LearnVocabFromTrainFile() {
   for (a = 0; a < vocab_hash_size; a++) vocab_hash[a] = -1;
   fin = fopen(train_file, "rb");
   if (fin == NULL) {
-    printf("ERROR: training data file not found!\n");
+    NSLog(@"ERROR: training data file not found!\n");
     exit(1);
   }
   vocab_size = 0;
@@ -278,7 +278,7 @@ void LearnVocabFromTrainFile() {
     if (feof(fin)) break;
     train_words++;
     if ((debug_mode > 1) && (train_words % 100000 == 0)) {
-      printf("%lldK%c", train_words / 1000, 13);
+      NSLog(@"%lldK%c", train_words / 1000, 13);
       fflush(stdout);
     }
     i = SearchVocab(word);
@@ -290,8 +290,8 @@ void LearnVocabFromTrainFile() {
   }
   SortVocab();
   if (debug_mode > 0) {
-    printf("Vocab size: %lld\n", vocab_size);
-    printf("Words in train file: %lld\n", train_words);
+    NSLog(@"Vocab size: %lld\n", vocab_size);
+    NSLog(@"Words in train file: %lld\n", train_words);
   }
   file_size = ftell(fin);
   fclose(fin);
@@ -310,7 +310,7 @@ void ReadVocab() {
   char word[MAX_STRING];
   FILE *fin = fopen(read_vocab_file, "rb");
   if (fin == NULL) {
-    printf("Vocabulary file not found\n");
+    NSLog(@"Vocabulary file not found\n");
     exit(1);
   }
   for (a = 0; a < vocab_hash_size; a++) vocab_hash[a] = -1;
@@ -324,12 +324,12 @@ void ReadVocab() {
   }
   SortVocab();
   if (debug_mode > 0) {
-    printf("Vocab size: %lld\n", vocab_size);
-    printf("Words in train file: %lld\n", train_words);
+    NSLog(@"Vocab size: %lld\n", vocab_size);
+    NSLog(@"Words in train file: %lld\n", train_words);
   }
   fin = fopen(train_file, "rb");
   if (fin == NULL) {
-    printf("ERROR: training data file not found!\n");
+    NSLog(@"ERROR: training data file not found!\n");
     exit(1);
   }
   fseek(fin, 0, SEEK_END);
@@ -341,16 +341,16 @@ void InitNet() {
   long long a, b;
   unsigned long long next_random = 1;
   a = posix_memalign((void **)&syn0, 128, (long long)vocab_size * layer1_size * sizeof(real));
-  if (syn0 == NULL) {printf("Memory allocation failed\n"); exit(1);}
+  if (syn0 == NULL) {NSLog(@"Memory allocation failed\n"); exit(1);}
   if (hs) {
     a = posix_memalign((void **)&syn1, 128, (long long)vocab_size * layer1_size * sizeof(real));
-    if (syn1 == NULL) {printf("Memory allocation failed\n"); exit(1);}
+    if (syn1 == NULL) {NSLog(@"Memory allocation failed\n"); exit(1);}
     for (a = 0; a < vocab_size; a++) for (b = 0; b < layer1_size; b++)
      syn1[a * layer1_size + b] = 0;
   }
   if (negative>0) {
     a = posix_memalign((void **)&syn1neg, 128, (long long)vocab_size * layer1_size * sizeof(real));
-    if (syn1neg == NULL) {printf("Memory allocation failed\n"); exit(1);}
+    if (syn1neg == NULL) {NSLog(@"Memory allocation failed\n"); exit(1);}
     for (a = 0; a < vocab_size; a++) for (b = 0; b < layer1_size; b++)
      syn1neg[a * layer1_size + b] = 0;
   }
@@ -378,7 +378,7 @@ void *TrainModelThread(void *id) {
       last_word_count = word_count;
       if ((debug_mode > 1)) {
         now=clock();
-        printf("%cAlpha: %f  Progress: %.2f%%  Words/thread/sec: %.2fk  ", 13, alpha,
+        NSLog(@"%cAlpha: %f  Progress: %.2f%%  Words/thread/sec: %.2fk  ", 13, alpha,
          word_count_actual / (real)(iter * train_words + 1) * 100,
          word_count_actual / ((real)(now - start + 1) / (real)CLOCKS_PER_SEC * 1000));
         fflush(stdout);
@@ -547,7 +547,7 @@ void TrainModel() {
   long a, b, c, d;
   FILE *fo;
   pthread_t *pt = (pthread_t *)malloc(num_threads * sizeof(pthread_t));
-  printf("Starting training using file %s\n", train_file);
+  NSLog(@"Starting training using file %s\n", train_file);
   starting_alpha = alpha;
   if (read_vocab_file[0] != 0) ReadVocab(); else LearnVocabFromTrainFile();
   if (save_vocab_file[0] != 0) SaveVocab();
@@ -618,7 +618,7 @@ int ArgPos(char *str, int argc, char **argv) {
   int a;
   for (a = 1; a < argc; a++) if (!strcmp(str, argv[a])) {
     if (a == argc - 1) {
-      printf("Argument missing for %s\n", str);
+      NSLog(@"Argument missing for %s\n", str);
       exit(1);
     }
     return a;
@@ -626,10 +626,10 @@ int ArgPos(char *str, int argc, char **argv) {
   return -1;
 }
 
-void Prepare(NSString *trainFile,
-             NSString *outputFile,
-             NSString * _Nullable saveVocabFile,
-             NSString * _Nullable readVocabFile,
+void Prepare(NSURL * _Nonnull trainFile,
+             NSURL * _Nonnull outputFile,
+             NSURL * _Nullable saveVocabFile,
+             NSURL * _Nullable readVocabFile,
              NSNumber * _Nullable wordVectorSize,
              NSNumber * _Nullable debug,
              NSNumber * _Nullable saveToBinary,
@@ -649,11 +649,25 @@ void Prepare(NSString *trainFile,
     save_vocab_file[0] = 0;
     read_vocab_file[0] = 0;
     
-    strcpy(train_file, [trainFile cStringUsingEncoding:NSUTF8StringEncoding]);
-    if (saveVocabFile) strcpy(save_vocab_file, [saveVocabFile cStringUsingEncoding:NSUTF8StringEncoding]);
-    if (readVocabFile) strcpy(read_vocab_file, [readVocabFile cStringUsingEncoding:NSUTF8StringEncoding]);
-    strcpy(output_file, [outputFile cStringUsingEncoding: NSUTF8StringEncoding]);
+    NSFileManager *manager = [NSFileManager defaultManager];
+   
+    char const *trainFilePath = [manager fileSystemRepresentationWithPath:trainFile.path];
+    char const *outputFilePath = [manager fileSystemRepresentationWithPath:outputFile.path];
     
+    strcpy(train_file, trainFilePath);
+    strcpy(output_file, outputFilePath);
+
+    if (saveVocabFile) {
+        char const *saveVocabFilePath = [manager fileSystemRepresentationWithPath:saveVocabFile.path];
+
+        strcpy(save_vocab_file, saveVocabFilePath);
+    }
+    
+    if (readVocabFile) {
+        char const *readVocabFilePath = [manager fileSystemRepresentationWithPath:readVocabFile.path];
+
+        strcpy(read_vocab_file, readVocabFilePath);
+    }
     
     if (wordVectorSize) layer1_size = wordVectorSize.longLongValue;
     if (debug) debug_mode = debug.intValue;
