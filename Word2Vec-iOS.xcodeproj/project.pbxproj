@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2B1C4E0D1BC694CD009227C0 /* Word2VecModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1C4E0C1BC694CD009227C0 /* Word2VecModel.swift */; settings = {ASSET_TAGS = (); }; };
+		2BD75A501BC69A2600D6B43B /* word2vec.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BD75A4A1BC69A2600D6B43B /* word2vec.m */; settings = {ASSET_TAGS = (); }; };
 		2BFA44641BC6834D00BB50D8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BFA44631BC6834D00BB50D8 /* AppDelegate.swift */; };
 		2BFA44661BC6834D00BB50D8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BFA44651BC6834D00BB50D8 /* ViewController.swift */; };
 		2BFA44691BC6834D00BB50D8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2BFA44671BC6834D00BB50D8 /* Main.storyboard */; };
@@ -26,6 +28,21 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2B1C4E0C1BC694CD009227C0 /* Word2VecModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Word2VecModel.swift; path = classes/Word2VecModel.swift; sourceTree = "<group>"; };
+		2BD355DF1BC687F5006B1100 /* Word2Vec-iOS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Word2Vec-iOS-Bridging-Header.h"; sourceTree = "<group>"; };
+		2BD75A3E1BC69A2600D6B43B /* compute-accuracy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "compute-accuracy.h"; sourceTree = "<group>"; };
+		2BD75A3F1BC69A2600D6B43B /* compute-accuracy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "compute-accuracy.m"; sourceTree = "<group>"; };
+		2BD75A401BC69A2600D6B43B /* distance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = distance.h; sourceTree = "<group>"; };
+		2BD75A411BC69A2600D6B43B /* distance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = distance.m; sourceTree = "<group>"; };
+		2BD75A421BC69A2600D6B43B /* word-analogy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "word-analogy.h"; sourceTree = "<group>"; };
+		2BD75A431BC69A2600D6B43B /* word-analogy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "word-analogy.m"; sourceTree = "<group>"; };
+		2BD75A441BC69A2600D6B43B /* word2phrase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = word2phrase.h; sourceTree = "<group>"; };
+		2BD75A451BC69A2600D6B43B /* word2phrase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = word2phrase.m; sourceTree = "<group>"; };
+		2BD75A461BC69A2600D6B43B /* Word2Vec-iOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Word2Vec-iOS.h"; sourceTree = "<group>"; };
+		2BD75A471BC69A2600D6B43B /* word2vec-sentence2vec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "word2vec-sentence2vec.h"; sourceTree = "<group>"; };
+		2BD75A481BC69A2600D6B43B /* word2vec-sentence2vec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "word2vec-sentence2vec.m"; sourceTree = "<group>"; };
+		2BD75A491BC69A2600D6B43B /* word2vec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = word2vec.h; sourceTree = "<group>"; };
+		2BD75A4A1BC69A2600D6B43B /* word2vec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = word2vec.m; sourceTree = "<group>"; };
 		2BFA44601BC6834D00BB50D8 /* Word2Vec-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Word2Vec-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BFA44631BC6834D00BB50D8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2BFA44651BC6834D00BB50D8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -56,6 +73,34 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2BD355E31BC68812006B1100 /* classes */ = {
+			isa = PBXGroup;
+			children = (
+				2B1C4E0C1BC694CD009227C0 /* Word2VecModel.swift */,
+			);
+			name = classes;
+			sourceTree = "<group>";
+		};
+		2BD75A3D1BC69A2600D6B43B /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				2BD75A3E1BC69A2600D6B43B /* compute-accuracy.h */,
+				2BD75A3F1BC69A2600D6B43B /* compute-accuracy.m */,
+				2BD75A401BC69A2600D6B43B /* distance.h */,
+				2BD75A411BC69A2600D6B43B /* distance.m */,
+				2BD75A421BC69A2600D6B43B /* word-analogy.h */,
+				2BD75A431BC69A2600D6B43B /* word-analogy.m */,
+				2BD75A441BC69A2600D6B43B /* word2phrase.h */,
+				2BD75A451BC69A2600D6B43B /* word2phrase.m */,
+				2BD75A461BC69A2600D6B43B /* Word2Vec-iOS.h */,
+				2BD75A471BC69A2600D6B43B /* word2vec-sentence2vec.h */,
+				2BD75A481BC69A2600D6B43B /* word2vec-sentence2vec.m */,
+				2BD75A491BC69A2600D6B43B /* word2vec.h */,
+				2BD75A4A1BC69A2600D6B43B /* word2vec.m */,
+			);
+			path = lib;
+			sourceTree = "<group>";
+		};
 		2BFA44571BC6834D00BB50D8 = {
 			isa = PBXGroup;
 			children = (
@@ -77,12 +122,15 @@
 		2BFA44621BC6834D00BB50D8 /* Word2Vec-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				2BD75A3D1BC69A2600D6B43B /* lib */,
+				2BD355E31BC68812006B1100 /* classes */,
 				2BFA44631BC6834D00BB50D8 /* AppDelegate.swift */,
 				2BFA44651BC6834D00BB50D8 /* ViewController.swift */,
 				2BFA44671BC6834D00BB50D8 /* Main.storyboard */,
 				2BFA446A1BC6834D00BB50D8 /* Assets.xcassets */,
 				2BFA446C1BC6834D00BB50D8 /* LaunchScreen.storyboard */,
 				2BFA446F1BC6834D00BB50D8 /* Info.plist */,
+				2BD355DF1BC687F5006B1100 /* Word2Vec-iOS-Bridging-Header.h */,
 			);
 			path = "Word2Vec-iOS";
 			sourceTree = "<group>";
@@ -140,6 +188,7 @@
 		2BFA44581BC6834D00BB50D8 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = OWL;
 				TargetAttributes = {
@@ -196,7 +245,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B1C4E0D1BC694CD009227C0 /* Word2VecModel.swift in Sources */,
 				2BFA44661BC6834D00BB50D8 /* ViewController.swift in Sources */,
+				2BD75A501BC69A2600D6B43B /* word2vec.m in Sources */,
 				2BFA44641BC6834D00BB50D8 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -324,10 +375,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = "Word2Vec-iOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "OWL.Word2Vec-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Word2Vec-iOS/Word2Vec-iOS-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -335,10 +389,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = "Word2Vec-iOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "OWL.Word2Vec-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Word2Vec-iOS/Word2Vec-iOS-Bridging-Header.h";
 			};
 			name = Release;
 		};
@@ -385,6 +441,7 @@
 				2BFA447F1BC6834E00BB50D8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		2BFA44801BC6834E00BB50D8 /* Build configuration list for PBXNativeTarget "Word2Vec-iOSTests" */ = {
 			isa = XCConfigurationList;
@@ -393,6 +450,7 @@
 				2BFA44821BC6834E00BB50D8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

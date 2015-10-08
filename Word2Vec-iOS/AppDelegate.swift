@@ -15,6 +15,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        
+        let model = Word2VecModel()
+        model.trainFile = ""
+        model.outputFile = ""
+        model.train()
+        
+        
         // Override point for customization after application launch.
         return true
     }
