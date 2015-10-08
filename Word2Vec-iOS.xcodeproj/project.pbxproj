@@ -1,0 +1,400 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2BFA44641BC6834D00BB50D8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BFA44631BC6834D00BB50D8 /* AppDelegate.swift */; };
+		2BFA44661BC6834D00BB50D8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BFA44651BC6834D00BB50D8 /* ViewController.swift */; };
+		2BFA44691BC6834D00BB50D8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2BFA44671BC6834D00BB50D8 /* Main.storyboard */; };
+		2BFA446B1BC6834D00BB50D8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2BFA446A1BC6834D00BB50D8 /* Assets.xcassets */; };
+		2BFA446E1BC6834D00BB50D8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2BFA446C1BC6834D00BB50D8 /* LaunchScreen.storyboard */; };
+		2BFA44791BC6834E00BB50D8 /* Word2Vec_iOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BFA44781BC6834E00BB50D8 /* Word2Vec_iOSTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		2BFA44751BC6834E00BB50D8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2BFA44581BC6834D00BB50D8 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2BFA445F1BC6834D00BB50D8;
+			remoteInfo = "Word2Vec-iOS";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		2BFA44601BC6834D00BB50D8 /* Word2Vec-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Word2Vec-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2BFA44631BC6834D00BB50D8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		2BFA44651BC6834D00BB50D8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		2BFA44681BC6834D00BB50D8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		2BFA446A1BC6834D00BB50D8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		2BFA446D1BC6834D00BB50D8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		2BFA446F1BC6834D00BB50D8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2BFA44741BC6834E00BB50D8 /* Word2Vec-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Word2Vec-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2BFA44781BC6834E00BB50D8 /* Word2Vec_iOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word2Vec_iOSTests.swift; sourceTree = "<group>"; };
+		2BFA447A1BC6834E00BB50D8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2BFA445D1BC6834D00BB50D8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2BFA44711BC6834E00BB50D8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2BFA44571BC6834D00BB50D8 = {
+			isa = PBXGroup;
+			children = (
+				2BFA44621BC6834D00BB50D8 /* Word2Vec-iOS */,
+				2BFA44771BC6834E00BB50D8 /* Word2Vec-iOSTests */,
+				2BFA44611BC6834D00BB50D8 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		2BFA44611BC6834D00BB50D8 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2BFA44601BC6834D00BB50D8 /* Word2Vec-iOS.app */,
+				2BFA44741BC6834E00BB50D8 /* Word2Vec-iOSTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2BFA44621BC6834D00BB50D8 /* Word2Vec-iOS */ = {
+			isa = PBXGroup;
+			children = (
+				2BFA44631BC6834D00BB50D8 /* AppDelegate.swift */,
+				2BFA44651BC6834D00BB50D8 /* ViewController.swift */,
+				2BFA44671BC6834D00BB50D8 /* Main.storyboard */,
+				2BFA446A1BC6834D00BB50D8 /* Assets.xcassets */,
+				2BFA446C1BC6834D00BB50D8 /* LaunchScreen.storyboard */,
+				2BFA446F1BC6834D00BB50D8 /* Info.plist */,
+			);
+			path = "Word2Vec-iOS";
+			sourceTree = "<group>";
+		};
+		2BFA44771BC6834E00BB50D8 /* Word2Vec-iOSTests */ = {
+			isa = PBXGroup;
+			children = (
+				2BFA44781BC6834E00BB50D8 /* Word2Vec_iOSTests.swift */,
+				2BFA447A1BC6834E00BB50D8 /* Info.plist */,
+			);
+			path = "Word2Vec-iOSTests";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2BFA445F1BC6834D00BB50D8 /* Word2Vec-iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2BFA447D1BC6834E00BB50D8 /* Build configuration list for PBXNativeTarget "Word2Vec-iOS" */;
+			buildPhases = (
+				2BFA445C1BC6834D00BB50D8 /* Sources */,
+				2BFA445D1BC6834D00BB50D8 /* Frameworks */,
+				2BFA445E1BC6834D00BB50D8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Word2Vec-iOS";
+			productName = "Word2Vec-iOS";
+			productReference = 2BFA44601BC6834D00BB50D8 /* Word2Vec-iOS.app */;
+			productType = "com.apple.product-type.application";
+		};
+		2BFA44731BC6834E00BB50D8 /* Word2Vec-iOSTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2BFA44801BC6834E00BB50D8 /* Build configuration list for PBXNativeTarget "Word2Vec-iOSTests" */;
+			buildPhases = (
+				2BFA44701BC6834E00BB50D8 /* Sources */,
+				2BFA44711BC6834E00BB50D8 /* Frameworks */,
+				2BFA44721BC6834E00BB50D8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2BFA44761BC6834E00BB50D8 /* PBXTargetDependency */,
+			);
+			name = "Word2Vec-iOSTests";
+			productName = "Word2Vec-iOSTests";
+			productReference = 2BFA44741BC6834E00BB50D8 /* Word2Vec-iOSTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2BFA44581BC6834D00BB50D8 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0700;
+				ORGANIZATIONNAME = OWL;
+				TargetAttributes = {
+					2BFA445F1BC6834D00BB50D8 = {
+						CreatedOnToolsVersion = 7.0.1;
+					};
+					2BFA44731BC6834E00BB50D8 = {
+						CreatedOnToolsVersion = 7.0.1;
+						TestTargetID = 2BFA445F1BC6834D00BB50D8;
+					};
+				};
+			};
+			buildConfigurationList = 2BFA445B1BC6834D00BB50D8 /* Build configuration list for PBXProject "Word2Vec-iOS" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 2BFA44571BC6834D00BB50D8;
+			productRefGroup = 2BFA44611BC6834D00BB50D8 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2BFA445F1BC6834D00BB50D8 /* Word2Vec-iOS */,
+				2BFA44731BC6834E00BB50D8 /* Word2Vec-iOSTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2BFA445E1BC6834D00BB50D8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2BFA446E1BC6834D00BB50D8 /* LaunchScreen.storyboard in Resources */,
+				2BFA446B1BC6834D00BB50D8 /* Assets.xcassets in Resources */,
+				2BFA44691BC6834D00BB50D8 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2BFA44721BC6834E00BB50D8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2BFA445C1BC6834D00BB50D8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2BFA44661BC6834D00BB50D8 /* ViewController.swift in Sources */,
+				2BFA44641BC6834D00BB50D8 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2BFA44701BC6834E00BB50D8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2BFA44791BC6834E00BB50D8 /* Word2Vec_iOSTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2BFA44761BC6834E00BB50D8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2BFA445F1BC6834D00BB50D8 /* Word2Vec-iOS */;
+			targetProxy = 2BFA44751BC6834E00BB50D8 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		2BFA44671BC6834D00BB50D8 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2BFA44681BC6834D00BB50D8 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		2BFA446C1BC6834D00BB50D8 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2BFA446D1BC6834D00BB50D8 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		2BFA447B1BC6834E00BB50D8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		2BFA447C1BC6834E00BB50D8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		2BFA447E1BC6834E00BB50D8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = "Word2Vec-iOS/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "OWL.Word2Vec-iOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		2BFA447F1BC6834E00BB50D8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = "Word2Vec-iOS/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "OWL.Word2Vec-iOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		2BFA44811BC6834E00BB50D8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = "Word2Vec-iOSTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "OWL.Word2Vec-iOSTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Word2Vec-iOS.app/Word2Vec-iOS";
+			};
+			name = Debug;
+		};
+		2BFA44821BC6834E00BB50D8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = "Word2Vec-iOSTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "OWL.Word2Vec-iOSTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Word2Vec-iOS.app/Word2Vec-iOS";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2BFA445B1BC6834D00BB50D8 /* Build configuration list for PBXProject "Word2Vec-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2BFA447B1BC6834E00BB50D8 /* Debug */,
+				2BFA447C1BC6834E00BB50D8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2BFA447D1BC6834E00BB50D8 /* Build configuration list for PBXNativeTarget "Word2Vec-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2BFA447E1BC6834E00BB50D8 /* Debug */,
+				2BFA447F1BC6834E00BB50D8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		2BFA44801BC6834E00BB50D8 /* Build configuration list for PBXNativeTarget "Word2Vec-iOSTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2BFA44811BC6834E00BB50D8 /* Debug */,
+				2BFA44821BC6834E00BB50D8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2BFA44581BC6834D00BB50D8 /* Project object */;
+}
