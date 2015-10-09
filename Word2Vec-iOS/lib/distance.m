@@ -18,61 +18,78 @@
 #include <stdlib.h>
 #import <Foundation/Foundation.h>
 
-const long long max_size = 2000;         // max length of strings
-const long long N = 40;                  // number of closest words that will be shown
-const long long max_w = 50;              // max length of vocabulary entries
+static NSString * const MemoryAllocationError = @"MemoryAllocationError";
+
+const long long maxStringLength = 2000;         // max length of strings
+long long numberToShow = 40;                  // number of closest words that will be shown
+const long long entryMaxLength = 50;              // max length of vocabulary entries
 
 /*
  Usage: ./distance <FILE>\nwhere FILE contains word projections in the BINARY FORMAT
  */
 
-NSDictionary <NSString *, NSNumber *>  * _Nullable  Distance(NSURL * _Nonnull fileName, NSString * _Nonnull word) {
+NSDictionary <NSString *, NSNumber *>  * _Nullable  Distance(NSURL * _Nonnull fileURL, NSString * _Nonnull word, NSNumber *numberOfClosest, NSError ** error) {
     
     NSMutableDictionary *result = [NSMutableDictionary dictionary];
     
-    FILE *f;
-    char st1[max_size];// = [word cStringUsingEncoding:NSUTF8StringEncoding];
-    char *bestw[N];
-    char file_name[max_size], st[100][max_size];
-    float dist, len, bestd[N], vec[max_size];
+    if(numberOfClosest) { numberToShow = numberOfClosest.longLongValue; }
+    
+    FILE *modelFile;
+    char *st1 = [word cStringUsingEncoding:NSUTF8StringEncoding];//[maxStringLength];//
+    char *bestWords[numberToShow];
+    char file_name[maxStringLength], st[100][maxStringLength];
+    float dist, len, bestd[numberToShow], vec[maxStringLength];
     long long words, size, a, b, c, d, cn, bi[100];
     char ch;
     float *M;
     char *vocab;
     
     NSFileManager *manager = [NSFileManager defaultManager];
-    char const *outputFilePath = [manager fileSystemRepresentationWithPath:fileName.path];
+    char const *outputFilePath = [manager fileSystemRepresentationWithPath:fileURL.path];
     
     strcpy(file_name, outputFilePath);
-    f = fopen(file_name, "rb");
+    modelFile = fopen(file_name, "rb");
 
-    fscanf(f, "%lld", &words);
-    fscanf(f, "%lld", &size);
-    vocab = (char *)malloc((long long)words * max_w * sizeof(char));
-    for (a = 0; a < N; a++) bestw[a] = (char *)malloc(max_size * sizeof(char));
+    fscanf(modelFile, "%lld", &words);
+    fscanf(modelFile, "%lld", &size);
+    
+    vocab = (char *)malloc((long long)words * entryMaxLength * sizeof(char));
+    
+    for (a = 0; a < numberToShow; a++) {
+        bestWords[a] = (char *)malloc(maxStringLength * sizeof(char));
+    }
+    
     M = (float *)malloc((long long)words * (long long)size * sizeof(float));
+    
     if (M == NULL) {
-        NSLog(@"Cannot allocate memory: %lld MB    %lld  %lld\n", (long long)words * size * sizeof(float) / 1048576, words, size);
+        NSString *message = [NSString stringWithFormat:@"Cannot allocate memory: %lld MB    %lld  %lld\n", (long long)words * size * sizeof(float) / 1048576, words, size];
+        
+        * error = [NSError errorWithDomain:MemoryAllocationError
+                                    code:1
+                                userInfo:@{NSLocalizedDescriptionKey : message}];
+        
+        NSLog(@"%@", message);
         return nil;
     }
+    
     for (b = 0; b < words; b++) {
         a = 0;
         while (1) {
-            vocab[b * max_w + a] = fgetc(f);
-            if (feof(f) || (vocab[b * max_w + a] == ' ')) break;
-            if ((a < max_w) && (vocab[b * max_w + a] != '\n')) a++;
+            vocab[b * entryMaxLength + a] = fgetc(modelFile);
+            if (feof(modelFile) || (vocab[b * entryMaxLength + a] == ' ')) break;
+            if ((a < entryMaxLength) && (vocab[b * entryMaxLength + a] != '\n')) a++;
         }
-        vocab[b * max_w + a] = 0;
-        for (a = 0; a < size; a++) fread(&M[a + b * size], sizeof(float), 1, f);
+        vocab[b * entryMaxLength + a] = 0;
+        for (a = 0; a < size; a++) fread(&M[a + b * size], sizeof(float), 1, modelFile);
         len = 0;
         for (a = 0; a < size; a++) len += M[a + b * size] * M[a + b * size];
         len = sqrt(len);
         for (a = 0; a < size; a++) M[a + b * size] /= len;
     }
-    fclose(f);
+    fclose(modelFile);
 //    while (1) {
-        for (a = 0; a < N; a++) bestd[a] = 0;
-        for (a = 0; a < N; a++) bestw[a][0] = 0;
+        for (a = 0; a < numberToShow; a++) bestd[a] = 0;
+        for (a = 0; a < numberToShow; a++) bestWords[a][0] = 0;
         NSLog(@"Enter word or sentence (EXIT to break): ");
         a = 0;
 //        while (1) {
@@ -87,21 +104,21 @@ NSDictionary <NSString *, NSNumber *>  * _Nullable  Distance(NSURL * _Nonnull fi
         cn = 0;
         b = 0;
         c = 0;
-//        while (1) {
-//            st[cn][b] = st1[c];
-//            b++;
-//            c++;
-//            st[cn][b] = 0;
-//            if (st1[c] == 0) break;
-//            if (st1[c] == ' ') {
-//                cn++;
-//                b = 0;
-//                c++;
-//            }
-//        }
+        while (1) {
+            st[cn][b] = st1[c];
+            b++;
+            c++;
+            st[cn][b] = 0;
+            if (st1[c] == 0) break;
+            if (st1[c] == ' ') {
+                cn++;
+                b = 0;
+                c++;
+            }
+        }
         cn++;
         for (a = 0; a < cn; a++) {
-            for (b = 0; b < words; b++) if (!strcmp(&vocab[b * max_w], st[a])) break;
+            for (b = 0; b < words; b++) if (!strcmp(&vocab[b * entryMaxLength], st[a])) break;
             if (b == words) b = -1;
             bi[a] = b;
             
@@ -122,28 +139,28 @@ NSDictionary <NSString *, NSNumber *>  * _Nullable  Distance(NSURL * _Nonnull fi
         for (a = 0; a < size; a++) len += vec[a] * vec[a];
         len = sqrt(len);
         for (a = 0; a < size; a++) vec[a] /= len;
-        for (a = 0; a < N; a++) bestd[a] = -1;
-        for (a = 0; a < N; a++) bestw[a][0] = 0;
+        for (a = 0; a < numberToShow; a++) bestd[a] = -1;
+        for (a = 0; a < numberToShow; a++) bestWords[a][0] = 0;
         for (c = 0; c < words; c++) {
             a = 0;
             for (b = 0; b < cn; b++) if (bi[b] == c) a = 1;
             if (a == 1) continue;
             dist = 0;
             for (a = 0; a < size; a++) dist += vec[a] * M[a + c * size];
-            for (a = 0; a < N; a++) {
+            for (a = 0; a < numberToShow; a++) {
                 if (dist > bestd[a]) {
-                    for (d = N - 1; d > a; d--) {
+                    for (d = numberToShow - 1; d > a; d--) {
                         bestd[d] = bestd[d - 1];
-                        strcpy(bestw[d], bestw[d - 1]);
+                        strcpy(bestWords[d], bestWords[d - 1]);
                     }
                     bestd[a] = dist;
-                    strcpy(bestw[a], &vocab[c * max_w]);
+                    strcpy(bestWords[a], &vocab[c * entryMaxLength]);
                     break;
                 }
             }
         }
-        for (a = 0; a < N; a++) {
-            result[[[NSString alloc] initWithCString:bestw[a] encoding:NSUTF8StringEncoding]] = @(bestd[a]);
+        for (a = 0; a < numberToShow; a++) {
+            result[[NSString stringWithCString:bestWords[a] encoding:NSUTF8StringEncoding]] = @(bestd[a]);
             // NSLog(@"%50s\t\t%f\n", bestw[a], bestd[a]);
         }
 //    }

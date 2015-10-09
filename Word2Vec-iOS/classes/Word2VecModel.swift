@@ -99,7 +99,8 @@ class Word2VecModel: NSObject {
         TrainModel()
     }
     
-    func distance(word: String) -> [String : Float]? {
-        return Distance(outputFile, word) as! [String : Float]?
+    func distance(word: String, numberOfClosest: Int?) -> [String : Float]? {
+        var error: NSErrorPointer = nil
+        return Distance(outputFile, word, 40, error) as! [String : Float]?
     }
 }

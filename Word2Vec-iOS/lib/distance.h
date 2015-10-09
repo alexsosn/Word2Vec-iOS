@@ -4,6 +4,6 @@
 
 #import <Foundation/Foundation.h>
 
-NSDictionary <NSString *, NSNumber *>  * _Nullable  Distance(NSURL * _Nonnull fileName, NSString * _Nonnull word);
+NSDictionary <NSString *, NSNumber *>  * _Nullable  Distance(NSURL * _Nonnull fileURL, NSString * _Nonnull word, NSNumber *numberOfClosest, NSError ** error);
 
 #endif

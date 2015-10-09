@@ -25,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         model.outputFile = url
         model.train()
-        print(model.distance("краски"))
+        print(model.distance("краски", numberOfClosest: 40))
         
         // Override point for customization after application launch.
         return true
