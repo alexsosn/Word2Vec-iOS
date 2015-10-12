@@ -4,7 +4,7 @@
   // a bit experimental layer for now. I think it works but I'm not 100%
   // the gradient check is a bit funky. I'll look into this a bit later.
   // Local Response Normalization in window, along depths of volumes
-  var LocalResponseNormalizationLayer = function(opt) {
+  func LocalResponseNormalizationLayer(opt) {
     var opt = opt || {};
 
     // required
@@ -17,10 +17,10 @@
     self.out_sx = opt.in_sx;
     self.out_sy = opt.in_sy;
     self.out_depth = opt.in_depth;
-    self.layer_type = 'lrn';
+    self.layer_type = "lrn";
 
     // checks
-    if(self.n%2 === 0) { console.log('WARNING n should be odd for LRN layer'); }
+    if(self.n%2 === 0) { console.log("WARNING n should be odd for LRN layer"); }
   }
   LocalResponseNormalizationLayer.prototype = {
     func forward(V, is_training) -> () {

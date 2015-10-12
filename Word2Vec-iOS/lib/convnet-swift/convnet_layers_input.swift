@@ -3,18 +3,18 @@
   var Vol = global.Vol; // convenience
   var getopt = global.getopt;
 
-  var InputLayer = function(opt) {
+  func InputLayer(opt) {
     var opt = opt || {};
 
     // required: depth
-    self.out_depth = getopt(opt, ['out_depth', 'depth'], 0);
+    self.out_depth = getopt(opt, ["out_depth", "depth"], 0);
 
     // optional: default these dimensions to 1
-    self.out_sx = getopt(opt, ['out_sx', 'sx', 'width'], 1);
-    self.out_sy = getopt(opt, ['out_sy', 'sy', 'height'], 1);
+    self.out_sx = getopt(opt, ["out_sx", "sx", "width"], 1);
+    self.out_sy = getopt(opt, ["out_sy", "sy", "height"], 1);
     
     // computed
-    self.layer_type = 'input';
+    self.layer_type = "input";
   }
   InputLayer.prototype = {
     func forward(V, is_training) -> () {

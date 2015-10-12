@@ -3,12 +3,13 @@
   // Random number utilities
   var return_v = false;
   var v_val = 0.0;
-  var gaussRandom = function() {
+  func gaussRandom() {
     if(return_v) { 
       return_v = false;
       return v_val; 
     }
-    var u = 2*Math.random()-1;
+    
+    var u = 2*random()-1;
     var v = 2*Math.random()-1;
     var r = u*u + v*v;
     if(r == 0 || r > 1) return gaussRandom();
@@ -17,31 +18,31 @@
     return_v = true;
     return u*c;
   }
-  var randf = function(a, b) { return Math.random()*(b-a)+a; }
-  var randi = function(a, b) { return Math.floor(Math.random()*(b-a)+a); }
+  func randf(a, b) { return Math.random()*(b-a)+a; }
+  func randi(a, b) { return Math.floor(Math.random()*(b-a)+a); }
   var randn = function(mu, std){ return mu+gaussRandom()*std; }
 
   // Array utilities
-  var zeros = function(n) {
-    if(typeof(n)==='undefined' || isNaN(n)) { return []; }
-    if(typeof ArrayBuffer === 'undefined') {
+  func zeros(n) {
+    if(typeof(n)==="undefined" || isNaN(n)) { return []; }
+    if(ArrayBuffer == null) {
       // lacking browser support
-      var arr = new Array(n);
+      var arr = Array(n);
       for(var i=0;i<n;i++) { arr[i]= 0; }
       return arr;
     } else {
-      return new Float64Array(n);
+      return Float64Array(n);
     }
   }
 
-  var arrContains = function(arr, elt) {
+  func arrContains(arr, elt) {
     for(var i=0,n=arr.length;i<n;i++) {
       if(arr[i]===elt) return true;
     }
     return false;
   }
 
-  var arrUnique = function(arr) {
+  func arrUnique(arr) {
     var b = [];
     for(var i=0,n=arr.length;i<n;i++) {
       if(!arrContains(b, arr[i])) {
@@ -52,7 +53,7 @@
   }
 
   // return max and min of a given non-empty array.
-  var maxmin = function(w) {
+  func maxmin(w) {
     if(w.length === 0) { return {}; } // ... ;s
     var maxv = w[0];
     var minv = w[0];
@@ -67,7 +68,7 @@
   }
 
   // create random permutation of numbers, in range [0...n-1]
-  var randperm = function(n) {
+  func randperm(n) {
     var i = n,
         j = 0,
         temp;
@@ -84,7 +85,7 @@
 
   // sample from list lst according to probabilities in list probs
   // the two lists are of same size, and probs adds up to 1
-  var weightedSample = function(lst, probs) {
+  func weightedSample(lst, probs) {
     var p = randf(0, 1.0);
     var cumprob = 0.0;
     for(var k=0,n=lst.length;k<n;k++) {
@@ -94,16 +95,16 @@
   }
 
   // syntactic sugar function for getting default parameter values
-  var getopt = function(opt, field_name, default_value) {
-    if(typeof field_name === 'string') {
+  func getopt(opt, field_name, default_value) {
+    if(typeof field_name === "string") {
       // case of single string
-      return (typeof opt[field_name] !== 'undefined') ? opt[field_name] : default_value;
+      return (opt[field_name] != null) ? opt[field_name] : default_value;
     } else {
       // assume we are given a list of string instead
       var ret = default_value;
       for(var i=0;i<field_name.length;i++) {
         var f = field_name[i];
-        if (typeof opt[f] !== 'undefined') {
+        if (opt[f] != null) {
           ret = opt[f]; // overwrite return value
         }
       }
@@ -115,21 +116,9 @@
     if (!condition) {
       message = message || "Assertion failed";
       if (typeof Error !== "undefined") {
-        throw new Error(message);
+        throw Error(message);
       }
       throw message; // Fallback
     }
   }
-
-  global.randf = randf;
-  global.randi = randi;
-  global.randn = randn;
-  global.zeros = zeros;
-  global.maxmin = maxmin;
-  global.randperm = randperm;
-  global.weightedSample = weightedSample;
-  global.arrUnique = arrUnique;
-  global.arrContains = arrContains;
-  global.getopt = getopt;
-  global.assert = assert;
   

@@ -7,21 +7,21 @@
   // same goes for backward pass. Also, if we wanted to be efficient at test time
   // we could equivalently be clever and upscale during train and copy pointers during test
   // todo: make more efficient.
-  var DropoutLayer = function(opt) {
+  func DropoutLayer(opt) {
     var opt = opt || {};
 
     // computed
     self.out_sx = opt.in_sx;
     self.out_sy = opt.in_sy;
     self.out_depth = opt.in_depth;
-    self.layer_type = 'dropout';
-    self.drop_prob = typeof opt.drop_prob !== 'undefined' ? opt.drop_prob : 0.5;
+    self.layer_type = "dropout";
+    self.drop_prob = opt.drop_prob != null ? opt.drop_prob : 0.5;
     self.dropped = global.zeros(self.out_sx*self.out_sy*self.out_depth);
   }
   DropoutLayer.prototype = {
     func forward(V, is_training) -> () {
       self.in_act = V;
-      if(typeof(is_training)==='undefined') { is_training = false; } // default is prediction mode
+      if(typeof(is_training)==="undefined") { is_training = false; } // default is prediction mode
       var V2 = V.clone();
       var N = V.w.length;
       if(is_training) {

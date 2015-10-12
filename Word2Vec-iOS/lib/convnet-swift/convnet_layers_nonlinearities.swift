@@ -4,14 +4,14 @@
   // Implements ReLU nonlinearity elementwise
   // x -> max(0, x)
   // the output is in [0, inf)
-  var ReluLayer = function(opt) {
+  func ReluLayer(opt) {
     var opt = opt || {};
 
     // computed
     self.out_sx = opt.in_sx;
     self.out_sy = opt.in_sy;
     self.out_depth = opt.in_depth;
-    self.layer_type = 'relu';
+    self.layer_type = "relu";
   }
   ReluLayer.prototype = {
     func forward(V, is_training) -> () {
@@ -57,14 +57,14 @@
   // Implements Sigmoid nnonlinearity elementwise
   // x -> 1/(1+e^(-x))
   // so the output is between 0 and 1.
-  var SigmoidLayer = function(opt) {
+  func SigmoidLayer(opt) {
     var opt = opt || {};
 
     // computed
     self.out_sx = opt.in_sx;
     self.out_sy = opt.in_sy;
     self.out_depth = opt.in_depth;
-    self.layer_type = 'sigmoid';
+    self.layer_type = "sigmoid";
   }
   SigmoidLayer.prototype = {
     func forward(V, is_training) -> () {
@@ -112,17 +112,17 @@
   // x -> max(x)
   // where x is a vector of size group_size. Ideally of course,
   // the input size should be exactly divisible by group_size
-  var MaxoutLayer = function(opt) {
+  func MaxoutLayer(opt) {
     var opt = opt || {};
 
     // required
-    self.group_size = typeof opt.group_size !== 'undefined' ? opt.group_size : 2;
+    self.group_size = opt.group_size != null ? opt.group_size : 2;
 
     // computed
     self.out_sx = opt.in_sx;
     self.out_sy = opt.in_sy;
     self.out_depth = Math.floor(opt.in_depth / self.group_size);
-    self.layer_type = 'maxout';
+    self.layer_type = "maxout";
 
     self.switches = global.zeros(self.out_sx*self.out_sy*self.out_depth); // useful for backprop
   }
@@ -130,7 +130,7 @@
     func forward(V, is_training) -> () {
       self.in_act = V;
       var N = self.out_depth; 
-      var V2 = new Vol(self.out_sx, self.out_sy, self.out_depth, 0.0);
+      var V2 = Vol(self.out_sx, self.out_sy, self.out_depth, 0.0);
 
       // optimization branch. If we're operating on 1D arrays we dont have
       // to worry about keeping track of x,y,d coordinates inside
@@ -232,14 +232,14 @@
   // Implements Tanh nnonlinearity elementwise
   // x -> tanh(x) 
   // so the output is between -1 and 1.
-  var TanhLayer = function(opt) {
+  func TanhLayer(opt) {
     var opt = opt || {};
 
     // computed
     self.out_sx = opt.in_sx;
     self.out_sy = opt.in_sy;
     self.out_depth = opt.in_depth;
-    self.layer_type = 'tanh';
+    self.layer_type = "tanh";
   }
   TanhLayer.prototype = {
     func forward(V, is_training) -> () {

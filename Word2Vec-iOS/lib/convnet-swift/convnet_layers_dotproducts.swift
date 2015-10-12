@@ -26,7 +26,7 @@
     var l2_decay_mul: Float
 
     var layer_type: String
-    var filters: Int
+    var filters = []
     var biases: Vol
     
     init () {
@@ -35,7 +35,7 @@
     
     convenience init(opt: Vol) {
                 self.init()
-    var opt = opt || {};
+//    var opt = opt || {};
 
     // required
     self.out_depth = opt.filters;
@@ -55,17 +55,17 @@
     // note we are doing floor, so if the strided convolution of the filter doesnt fit into the input
     // volume exactly, the output volume will be trimmed and not contain the (incomplete) computed
     // final application.
-    self.out_sx = Math.floor((self.in_sx + self.pad * 2 - self.sx) / self.stride + 1);
-    self.out_sy = Math.floor((self.in_sy + self.pad * 2 - self.sy) / self.stride + 1);
+    self.out_sx = floor((self.in_sx + self.pad * 2 - self.sx) / self.stride + 1);
+    self.out_sy = floor((self.in_sy + self.pad * 2 - self.sy) / self.stride + 1);
     self.layer_type = "conv"
 
     // initializations
     var bias = opt.bias_pref ? opt.bias_pref : 0.0;
     self.filters = [];
     for(var i=0;i<self.out_depth;i++) {
-        self.filters.push(new Vol(self.sx, self.sy, self.in_depth));
+        self.filters.push(Vol(self.sx, self.sy, self.in_depth));
         }
-    self.biases = new Vol(1, 1, self.out_depth, bias);
+    self.biases = Vol(1, 1, self.out_depth, bias);
   }
 }
   ConvLayer.prototype = {
@@ -73,7 +73,7 @@
       // optimized code by @mdda that achieves 2x speedup over previous version
 
       self.in_act = V;
-      var A = new Vol(self.out_sx |0, self.out_sy |0, self.out_depth |0, 0.0);
+      var A = Vol(self.out_sx |0, self.out_sy |0, self.out_depth |0, 0.0);
       
       var V_sx = V.sx |0;
       var V_sy = V.sy |0;
@@ -186,47 +186,47 @@
       self.stride = json.stride;
       self.in_depth = json.in_depth; // depth of input volume
       self.filters = [];
-      self.l1_decay_mul = typeof json.l1_decay_mul !== 'undefined' ? json.l1_decay_mul : 1.0;
-      self.l2_decay_mul = typeof json.l2_decay_mul !== 'undefined' ? json.l2_decay_mul : 1.0;
-      self.pad = typeof json.pad !== 'undefined' ? json.pad : 0;
+      self.l1_decay_mul = json.l1_decay_mul != null ? json.l1_decay_mul : 1.0;
+      self.l2_decay_mul = json.l2_decay_mul != null ? json.l2_decay_mul : 1.0;
+      self.pad = json.pad != null ? json.pad : 0;
       for(var i=0;i<json.filters.length;i++) {
-        var v = new Vol(0,0,0,0);
+        var v = Vol(0,0,0,0);
         v.fromJSON(json.filters[i]);
         self.filters.push(v);
       }
-      self.biases = new Vol(0,0,0,0);
+      self.biases = Vol(0,0,0,0);
       self.biases.fromJSON(json.biases);
     }
   }
 
-  var FullyConnLayer = function(opt) {
+  func FullyConnLayer(opt) {
     var opt = opt || {};
 
     // required
     // ok fine we will allow 'filters' as the word as well
-    self.out_depth = typeof opt.num_neurons !== 'undefined' ? opt.num_neurons : opt.filters;
+    self.out_depth = opt.num_neurons != null ? opt.num_neurons : opt.filters;
 
     // optional 
-    self.l1_decay_mul = typeof opt.l1_decay_mul !== 'undefined' ? opt.l1_decay_mul : 0.0;
-    self.l2_decay_mul = typeof opt.l2_decay_mul !== 'undefined' ? opt.l2_decay_mul : 1.0;
+    self.l1_decay_mul = opt.l1_decay_mul != null ? opt.l1_decay_mul : 0.0;
+    self.l2_decay_mul = opt.l2_decay_mul != null ? opt.l2_decay_mul : 1.0;
 
     // computed
     self.num_inputs = opt.in_sx * opt.in_sy * opt.in_depth;
     self.out_sx = 1;
     self.out_sy = 1;
-    self.layer_type = 'fc';
+    self.layer_type = "fc";
 
     // initializations
-    var bias = typeof opt.bias_pref !== 'undefined' ? opt.bias_pref : 0.0;
+    var bias = opt.bias_pref != null ? opt.bias_pref : 0.0;
     self.filters = [];
-    for(var i=0;i<self.out_depth ;i++) { self.filters.push(new Vol(1, 1, self.num_inputs)); }
-    self.biases = new Vol(1, 1, self.out_depth, bias);
+    for(var i=0;i<self.out_depth ;i++) { self.filters.push(Vol(1, 1, self.num_inputs)); }
+    self.biases = Vol(1, 1, self.out_depth, bias);
   }
 
   FullyConnLayer.prototype = {
     func forward(V, is_training) -> () {
       self.in_act = V;
-      var A = new Vol(1, 1, self.out_depth, 0.0);
+      var A = Vol(1, 1, self.out_depth, 0.0);
       var Vw = V.w;
       for(var i=0;i<self.out_depth;i++) {
         var a = 0.0;
@@ -285,15 +285,15 @@
       self.out_sy = json.out_sy;
       self.layer_type = json.layer_type;
       self.num_inputs = json.num_inputs;
-      self.l1_decay_mul = typeof json.l1_decay_mul !== 'undefined' ? json.l1_decay_mul : 1.0;
-      self.l2_decay_mul = typeof json.l2_decay_mul !== 'undefined' ? json.l2_decay_mul : 1.0;
+      self.l1_decay_mul = json.l1_decay_mul != null ? json.l1_decay_mul : 1.0;
+      self.l2_decay_mul = json.l2_decay_mul != null ? json.l2_decay_mul : 1.0;
       self.filters = [];
       for(var i=0;i<json.filters.length;i++) {
-        var v = new Vol(0,0,0,0);
+        var v = Vol(0,0,0,0);
         v.fromJSON(json.filters[i]);
         self.filters.push(v);
       }
-      self.biases = new Vol(0,0,0,0);
+      self.biases = Vol(0,0,0,0);
       self.biases.fromJSON(json.biases);
     }
   }

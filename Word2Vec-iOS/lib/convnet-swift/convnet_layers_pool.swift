@@ -1,7 +1,7 @@
 
   var Vol = global.Vol; // convenience
   
-  var PoolLayer = function(opt) {
+  func PoolLayer(opt) {
 
     var opt = opt || {};
 
@@ -12,15 +12,15 @@
     self.in_sy = opt.in_sy;
 
     // optional
-    self.sy = typeof opt.sy !== 'undefined' ? opt.sy : self.sx;
-    self.stride = typeof opt.stride !== 'undefined' ? opt.stride : 2;
-    self.pad = typeof opt.pad !== 'undefined' ? opt.pad : 0; // amount of 0 padding to add around borders of input volume
+    self.sy = opt.sy != null ? opt.sy : self.sx;
+    self.stride = opt.stride != null ? opt.stride : 2;
+    self.pad = opt.pad != null ? opt.pad : 0; // amount of 0 padding to add around borders of input volume
 
     // computed
     self.out_depth = self.in_depth;
     self.out_sx = Math.floor((self.in_sx + self.pad * 2 - self.sx) / self.stride + 1);
     self.out_sy = Math.floor((self.in_sy + self.pad * 2 - self.sy) / self.stride + 1);
-    self.layer_type = 'pool';
+    self.layer_type = "pool";
     // store switches for x,y coordinates for where the max comes from, for each output neuron
     self.switchx = global.zeros(self.out_sx*self.out_sy*self.out_depth);
     self.switchy = global.zeros(self.out_sx*self.out_sy*self.out_depth);
@@ -30,7 +30,7 @@
     func forward(V, is_training) -> () {
       self.in_act = V;
 
-      var A = new Vol(self.out_sx, self.out_sy, self.out_depth, 0.0);
+      var A = Vol(self.out_sx, self.out_sy, self.out_depth, 0.0);
       
       var n=0; // a counter for switches
       for(var d=0;d<self.out_depth;d++) {
@@ -114,7 +114,7 @@
       self.sy = json.sy;
       self.stride = json.stride;
       self.in_depth = json.in_depth;
-      self.pad = typeof json.pad !== 'undefined' ? json.pad : 0; // backwards compatibility
+      self.pad = json.pad != null ? json.pad : 0; // backwards compatibility
       self.switchx = global.zeros(self.out_sx*self.out_sy*self.out_depth); // need to re-init these appropriately
       self.switchy = global.zeros(self.out_sx*self.out_sy*self.out_depth);
     }

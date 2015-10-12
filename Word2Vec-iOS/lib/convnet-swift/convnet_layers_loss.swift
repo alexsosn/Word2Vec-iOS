@@ -10,7 +10,7 @@
   // This is a classifier, with N discrete classes from 0 to N-1
   // it gets a stream of N incoming numbers and computes the softmax
   // function (exponentiate and normalize to sum to 1 as probabilities should)
-  var SoftmaxLayer = function(opt) {
+  func SoftmaxLayer(opt) {
     var opt = opt || {};
 
     // computed
@@ -18,14 +18,14 @@
     self.out_depth = self.num_inputs;
     self.out_sx = 1;
     self.out_sy = 1;
-    self.layer_type = 'softmax';
+    self.layer_type = "softmax";
   }
 
   SoftmaxLayer.prototype = {
     func forward(V, is_training) -> () {
       self.in_act = V;
 
-      var A = new Vol(1, 1, self.out_depth, 0.0);
+      var A = Vol(1, 1, self.out_depth, 0.0);
 
       // compute max activation
       var as = V.w;
@@ -92,7 +92,7 @@
   // implements an L2 regression cost layer,
   // so penalizes \sum_i(||x_i - y_i||^2), where x is its input
   // and y is the user-provided array of "correct" values.
-  var RegressionLayer = function(opt) {
+  func RegressionLayer(opt) {
     var opt = opt || {};
 
     // computed
@@ -100,7 +100,7 @@
     self.out_depth = self.num_inputs;
     self.out_sx = 1;
     self.out_sy = 1;
-    self.layer_type = 'regression';
+    self.layer_type = "regression";
   }
 
   RegressionLayer.prototype = {
@@ -125,7 +125,7 @@
           x.dw[i] = dy;
           loss += 0.5*dy*dy;
         }
-      } else if(typeof y === 'number') {
+      } else if(typeof y === "number") {
         // lets hope that only one number is being regressed
         var dy = x.w[0] - y;
         x.dw[0] = dy;
@@ -162,7 +162,7 @@
     }
   }
 
-  var SVMLayer = function(opt) {
+  func SVMLayer(opt) {
     var opt = opt || {};
 
     // computed
@@ -170,7 +170,7 @@
     self.out_depth = self.num_inputs;
     self.out_sx = 1;
     self.out_sy = 1;
-    self.layer_type = 'svm';
+    self.layer_type = "svm";
   }
 
   SVMLayer.prototype = {
