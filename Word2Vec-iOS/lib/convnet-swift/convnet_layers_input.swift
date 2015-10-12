@@ -1,0 +1,46 @@
+
+
+  var Vol = global.Vol; // convenience
+  var getopt = global.getopt;
+
+  var InputLayer = function(opt) {
+    var opt = opt || {};
+
+    // required: depth
+    self.out_depth = getopt(opt, ['out_depth', 'depth'], 0);
+
+    // optional: default these dimensions to 1
+    self.out_sx = getopt(opt, ['out_sx', 'sx', 'width'], 1);
+    self.out_sy = getopt(opt, ['out_sy', 'sy', 'height'], 1);
+    
+    // computed
+    self.layer_type = 'input';
+  }
+  InputLayer.prototype = {
+    func forward(V, is_training) -> () {
+      self.in_act = V;
+      self.out_act = V;
+      return self.out_act; // simply identity function for now
+    },
+    func backward() -> () { },
+    func getParamsAndGrads() -> () {
+      return [];
+    },
+    func toJSON() -> () {
+      var json = {};
+      json.out_depth = self.out_depth;
+      json.out_sx = self.out_sx;
+      json.out_sy = self.out_sy;
+      json.layer_type = self.layer_type;
+      return json;
+    },
+    func fromJSON(json) -> () {
+      self.out_depth = json.out_depth;
+      self.out_sx = json.out_sx;
+      self.out_sy = json.out_sy;
+      self.layer_type = json.layer_type; 
+    }
+  }
+
+  global.InputLayer = InputLayer;
+

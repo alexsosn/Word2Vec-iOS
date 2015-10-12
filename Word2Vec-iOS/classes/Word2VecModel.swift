@@ -69,7 +69,7 @@ class Word2VecModel: NSObject {
     var startingLearningRate: Float = 0.025
     var classesNumber: Int = 0
     var debug: Int = 2
-    var saveToBinary: Bool = false
+    var saveToBinary: Bool = true
     var saveVocabFile: NSURL?
     var readVocabFile: NSURL?
     var continuousBagOfWords: Bool = true

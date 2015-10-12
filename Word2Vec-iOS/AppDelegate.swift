@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
         let model = Word2VecModel()
-        model.trainFile = NSBundle.mainBundle().URLForResource("earth", withExtension: "html")
+        model.trainFile = NSBundle.mainBundle().URLForResource("Bible", withExtension: "html")
         
         let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
         let documentsDirectory = paths[0]
@@ -25,7 +25,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         model.outputFile = url
         model.train()
-        print(model.distance("краски", numberOfClosest: 40))
+        
+//        model.outputFile = NSBundle.mainBundle().URLForResource("GoogleNews-vectors-negative300", withExtension: "bin")
+
+        print(model.distance("time", numberOfClosest: 40))
         
         // Override point for customization after application launch.
         return true
