@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		2B1C4E0D1BC694CD009227C0 /* Word2VecModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1C4E0C1BC694CD009227C0 /* Word2VecModel.swift */; settings = {ASSET_TAGS = (); }; };
 		2B4A84F41BC7003C00F7F9E5 /* distance.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BD75A411BC69A2600D6B43B /* distance.m */; settings = {ASSET_TAGS = (); }; };
+		2BD3082B1BCDA2A6009DB563 /* convnet_options.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD3082A1BCDA2A6009DB563 /* convnet_options.swift */; settings = {ASSET_TAGS = (); }; };
+		2BD3082D1BCDA4B8009DB563 /* Layer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD3082C1BCDA4B8009DB563 /* Layer.swift */; settings = {ASSET_TAGS = (); }; };
 		2BD75A501BC69A2600D6B43B /* word2vec.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BD75A4A1BC69A2600D6B43B /* word2vec.m */; settings = {ASSET_TAGS = (); }; };
 		2BE3B13E1BC99F9A00CE88CB /* pg2701.txt in Resources */ = {isa = PBXBuildFile; fileRef = 2BE3B13D1BC99F9A00CE88CB /* pg2701.txt */; settings = {ASSET_TAGS = (); }; };
 		2BE3B1401BC9B7DE00CE88CB /* Bible.html in Resources */ = {isa = PBXBuildFile; fileRef = 2BE3B13F1BC9B7DE00CE88CB /* Bible.html */; settings = {ASSET_TAGS = (); }; };
@@ -45,6 +47,8 @@
 
 /* Begin PBXFileReference section */
 		2B1C4E0C1BC694CD009227C0 /* Word2VecModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Word2VecModel.swift; path = classes/Word2VecModel.swift; sourceTree = "<group>"; };
+		2BD3082A1BCDA2A6009DB563 /* convnet_options.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = convnet_options.swift; sourceTree = "<group>"; };
+		2BD3082C1BCDA4B8009DB563 /* Layer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Layer.swift; sourceTree = "<group>"; };
 		2BD355DF1BC687F5006B1100 /* Word2Vec-iOS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Word2Vec-iOS-Bridging-Header.h"; sourceTree = "<group>"; };
 		2BD75A3E1BC69A2600D6B43B /* compute-accuracy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "compute-accuracy.h"; sourceTree = "<group>"; };
 		2BD75A3F1BC69A2600D6B43B /* compute-accuracy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "compute-accuracy.m"; sourceTree = "<group>"; };
@@ -158,6 +162,8 @@
 				2BE3B1501BCB113100CE88CB /* convnet_util.swift */,
 				2BE3B1511BCB113100CE88CB /* convnet_vol.swift */,
 				2BE3B1521BCB113100CE88CB /* convnet_vol_util.swift */,
+				2BD3082A1BCDA2A6009DB563 /* convnet_options.swift */,
+				2BD3082C1BCDA4B8009DB563 /* Layer.swift */,
 			);
 			path = "convnet-swift";
 			sourceTree = "<group>";
@@ -323,8 +329,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2BD3082B1BCDA2A6009DB563 /* convnet_options.swift in Sources */,
 				2B1C4E0D1BC694CD009227C0 /* Word2VecModel.swift in Sources */,
 				2BFA44661BC6834D00BB50D8 /* ViewController.swift in Sources */,
+				2BD3082D1BCDA4B8009DB563 /* Layer.swift in Sources */,
 				2B4A84F41BC7003C00F7F9E5 /* distance.m in Sources */,
 				2BD75A501BC69A2600D6B43B /* word2vec.m in Sources */,
 				2BFA44641BC6834D00BB50D8 /* AppDelegate.swift in Sources */,

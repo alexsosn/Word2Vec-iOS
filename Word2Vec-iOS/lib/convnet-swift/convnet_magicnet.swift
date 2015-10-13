@@ -332,5 +332,5 @@ class MagicNet {
     // called when a batch of candidates has finished evaluating
     func onFinishBatch(f) -> () { self.finish_batch_callback = f; }
     
-};
+}
 

@@ -11,14 +11,14 @@ class Vol {
     var sx: Int
     var sy:Int
     var depth: Int
-    var w: [AnyObject?]
-    var dw: [Float?]
+    var w: [AnyObject]
+    var dw: [Double]
     
     init() {
         
     }
     
-    convenience init (array: [AnyObject?]) {
+    convenience init (array: [AnyObject]) {
         self.init()
         // we were given a list in sx, assume 1D volume and fill it up
         self.sx = 1
@@ -58,37 +58,37 @@ class Vol {
         
     }
     
-    func get(x:Int, y:Int, d:Int) -> AnyObject? {
+    func get(x:Int, y:Int, d:Int) -> AnyObject {
         var ix=((self.sx * y)+x)*self.depth+d
         return self.w[ix]
     }
     
-    func set(x:Int, y:Int, d:Int, v:AnyObject?) -> () {
+    func set(x:Int, y:Int, d:Int, v:AnyObject) -> () {
         var ix=((self.sx * y)+x)*self.depth+d
         self.w[ix] = v
     }
     
-    func add(x: Int, y: Int, d :Int, v:AnyObject?) -> () {
+    func add(x: Int, y: Int, d :Int, v:AnyObject) -> () {
         var ix=((self.sx * y)+x)*self.depth+d
         self.w[ix] += v
     }
     
-    func get_grad(x:Int, y:Int, d:Int) -> Float? {
+    func get_grad(x:Int, y:Int, d:Int) -> Float {
         var ix = ((self.sx * y)+x)*self.depth+d
         return self.dw[ix]
     }
     
-    func set_grad(x:Int, y:Int, d:Int, v: Float?) -> () {
+    func set_grad(x:Int, y:Int, d:Int, v: Float) -> () {
         var ix = ((self.sx * y)+x)*self.depth+d
         self.dw[ix] = v
     }
     
-    func add_grad(x:Int, y:Int, d:Int, v: Float?) -> () {
+    func add_grad(x:Int, y:Int, d:Int, v: Float) -> () {
         var ix = ((self.sx * y)+x)*self.depth+d
         self.dw[ix] += v
     }
     
-    func cloneAndZero() -> () {
+    func cloneAndZero() -> Vol {
         return Vol(self.sx, self.sy, self.depth, 0.0)
     }
     
@@ -99,26 +99,26 @@ class Vol {
         return V
     }
     
-    func addFrom(V: Vol?) {
+    func addFrom(V: Vol) {
         for(var k=0;k<self.w.length;k++) {//  -> ()
             self.w[k] += V.w[k]
         }
     }
     
-    func addFromScaled(V: Vol?, a: Float?) {
+    func addFromScaled(V: Vol, a: Float) {
         for(var k=0;k<self.w.length;k++) {
             //  -> ()
             self.w[k] += a*V.w[k]
         }
     }
     
-    func setConst(a: AnyObject?) {
+    func setConst(a: AnyObject) {
         for(var k=0; k<self.w.length; k++) {
             self.w[k] = a
         }
     }
     
-    func toJSON() -> [String: AnyObject?] {
+    func toJSON() -> [String: AnyObject] {
         // todo: we may want to only save d most significant digits to save space
         var json = [:]
         json["sx"] = self.sx
@@ -129,7 +129,7 @@ class Vol {
         // we wont back up gradients to save space
     }
     
-    func fromJSON(json: [String: AnyObject?]) -> () {
+    func fromJSON(json: [String: AnyObject]) -> () {
         self.sx = json["sx"]
         self.sy = json["sy"]
         self.depth = json["depth"]

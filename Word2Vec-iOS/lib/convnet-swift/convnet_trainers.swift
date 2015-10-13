@@ -27,10 +27,11 @@ class Trainer {
         self.xsum = []; // used in adam or adadelta
         
         // check if regression is expected
-        if(self.net.layers[self.net.layers.length - 1].layer_type === "regression")
+        if(self.net.layers[self.net.layers.length - 1].layer_type === "regression") {
         self.regression = true;
-        else
-        self.regression = false;
+        } else {
+            self.regression = false;
+        }
     }
     
     func train(x, y) -> () {
@@ -47,9 +48,9 @@ class Trainer {
         var end = Date().getTime();
         var bwd_time = end - start;
         
-        if(self.regression && y.constructor !== Array)
-        console.log("Warning: a regression net requires an array as training output vector.");
-        
+        if(self.regression && y.constructor !== Array) {
+        print("Warning: a regression net requires an array as training output vector.");
+        }
         self.k++;
         if(self.k % self.batch_size === 0) {
             
@@ -142,17 +143,13 @@ class Trainer {
         }
         
         // appending softmax_loss for backwards compatibility, but from now on we will always use cost_loss
-        // in future, TODO: have to completely redo the way loss is done around the network as currently 
+        // in future, TODO: have to completely redo the way loss is done around the network as currently
         // loss is a bit of a hack. Ideally, user should specify arbitrary number of loss functions on any layer
-        // and it should all be computed correctly and automatically. 
-        return {fwd_time: fwd_time, bwd_time: bwd_time, 
+        // and it should all be computed correctly and automatically.
+        return {fwd_time: fwd_time, bwd_time: bwd_time,
             l2_decay_loss: l2_decay_loss, l1_decay_loss: l1_decay_loss,
-            cost_loss: cost_loss, softmax_loss: cost_loss, 
+            cost_loss: cost_loss, softmax_loss: cost_loss,
             loss: cost_loss + l1_decay_loss + l2_decay_loss}
     }
 }
-
-//  global.Trainer = Trainer;
-//  global.SGDTrainer = Trainer; // backwards compatibility
-//
 

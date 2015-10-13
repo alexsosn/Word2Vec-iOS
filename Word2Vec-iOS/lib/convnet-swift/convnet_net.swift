@@ -3,10 +3,10 @@
 // For now constraints: Simple linear order of layers, first layer input last layer a cost layer
 
 class Net {
-    var layers: [AnyObject?] = []
+    var layers: [AnyObject] = []
     
     // takes a list of layer definitions and creates the network layer objects
-    func makeLayers(defs: [[String:AnyObject?]]) -> () {
+    func makeLayers(defs: [[String: AnyObject]]) -> () {
         
         // few checks
         assert(defs.length >= 2, "Error! At least one input layer and one loss layer are required.")
@@ -51,7 +51,7 @@ class Net {
                         var gs = def["group_size"] !== "undefined" ? def["group_size"] : 2
                         new_defs.append(["type":"maxout", "group_size":gs])
                     }
-                    else { console.log("ERROR unsupported activation " + def["activation"]) }
+                    else { print("ERROR unsupported activation " + def["activation"]) }
                 }
                 if(def["drop_prob"] && def["type"] !== "dropout") {
                     new_defs.append(["type":"dropout", "drop_prob": def["drop_prob"]])
@@ -110,15 +110,15 @@ class Net {
         return act
     }
     
-    func getCostLoss(V: Vol, y: AnyObject?) {
-        self.forward(V, false)
+    func getCostLoss(V: Vol, y: AnyObject) {
+        self.forward(V: Vol, false)
         var N = self.layers.length
         var loss = self.layers[N-1].backward(y)
         return loss
     }
     
     // backprop: compute gradients wrt all parameters
-    func backward(y: AnyObject?) {
+    func backward(y: AnyObject) {
         var N = self.layers.length
         var loss = self.layers[N-1].backward(y) // last layer assumed to be loss layer
         for(var i=N-2;i>=0;i--) { // first layer assumed input
