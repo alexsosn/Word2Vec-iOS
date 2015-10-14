@@ -5,7 +5,7 @@ class Trainer {
         
     }
     
-    convenience init(net, options) {
+    convenience init(net: Net, options: [String: AnyObject]) {
         
         self.net = net;
         
@@ -34,7 +34,7 @@ class Trainer {
         }
     }
     
-    func train(x, y) -> () {
+    func train(x, y) -> [String: AnyObject] {
         
         var start = Date().getTime();
         self.net.forward(x, true); // also set the flag that lets the net know we're just training
@@ -62,10 +62,10 @@ class Trainer {
                 // momentum needs gsum
                 // adagrad needs gsum
                 // adam and adadelta needs gsum and xsum
-                for(var i=0;i<pglist.length;i++) {
-                    self.gsum.push(global.zeros(pglist[i].params.length));
+                for i in 0 ..< pglist.length { {
+                    self.gsum.push(zeros(pglist[i].params.length));
                     if(self.method === "adam" || self.method === "adadelta") {
-                        self.xsum.push(global.zeros(pglist[i].params.length));
+                        self.xsum.push(zeros(pglist[i].params.length));
                     } else {
                         self.xsum.push([]); // conserve memory
                     }
@@ -73,7 +73,7 @@ class Trainer {
             }
             
             // perform an update for all sets of weights
-            for(var i=0;i<pglist.length;i++) {
+            for i in 0 ..< pglist.length { {
                 var pg = pglist[i]; // param, gradient, other options in future (custom learning rate etc)
                 var p = pg.params;
                 var g = pg.grads;
@@ -85,9 +85,9 @@ class Trainer {
                 var l1_decay = self.l1_decay * l1_decay_mul;
                 
                 var plen = p.length;
-                for(var j=0;j<plen;j++) {
+                for j in 0 ..< plen { {
                     l2_decay_loss += l2_decay*p[j]*p[j]/2; // accumulate weight decay loss
-                    l1_decay_loss += l1_decay*Math.abs(p[j]);
+                    l1_decay_loss += l1_decay*abs(p[j]);
                     var l1grad = l1_decay * (p[j] > 0 ? 1 : -1);
                     var l2grad = l2_decay * (p[j]);
                     
@@ -99,25 +99,25 @@ class Trainer {
                         // adam update
                         gsumi[j] = gsumi[j] * self.beta1 + (1- self.beta1) * gij; // update biased first moment estimate
                         xsumi[j] = xsumi[j] * self.beta2 + (1-self.beta2) * gij * gij; // update biased second moment estimate
-                        var biasCorr1 = gsumi[j] * (1 - Math.pow(self.beta1, self.k)); // correct bias first moment estimate
-                        var biasCorr2 = xsumi[j] * (1 - Math.pow(self.beta2, self.k)); // correct bias second moment estimate
-                        var dx =  - self.learning_rate * biasCorr1 / (Math.sqrt(biasCorr2) + self.eps);
+                        var biasCorr1 = gsumi[j] * (1 - pow(self.beta1, self.k)); // correct bias first moment estimate
+                        var biasCorr2 = xsumi[j] * (1 - pow(self.beta2, self.k)); // correct bias second moment estimate
+                        var dx =  -self.learning_rate * biasCorr1 / (sqrt(biasCorr2) + self.eps);
                         p[j] += dx;
                     } else if(self.method === "adagrad") {
                         // adagrad update
                         gsumi[j] = gsumi[j] + gij * gij;
-                        var dx = - self.learning_rate / Math.sqrt(gsumi[j] + self.eps) * gij;
+                        var dx = -self.learning_rate / sqrt(gsumi[j] + self.eps) * gij;
                         p[j] += dx;
                     } else if(self.method === "windowgrad") {
                         // this is adagrad but with a moving window weighted average
                         // so the gradient is not accumulated over the entire history of the run.
                         // it's also referred to as Idea #1 in Zeiler paper on Adadelta. Seems reasonable to me!
                         gsumi[j] = self.ro * gsumi[j] + (1-self.ro) * gij * gij;
-                        var dx = - self.learning_rate / Math.sqrt(gsumi[j] + self.eps) * gij; // eps added for better conditioning
+                        var dx = -self.learning_rate / sqrt(gsumi[j] + self.eps) * gij; // eps added for better conditioning
                         p[j] += dx;
                     } else if(self.method === "adadelta") {
                         gsumi[j] = self.ro * gsumi[j] + (1-self.ro) * gij * gij;
-                        var dx = - Math.sqrt((xsumi[j] + self.eps)/(gsumi[j] + self.eps)) * gij;
+                        var dx = -sqrt((xsumi[j] + self.eps)/(gsumi[j] + self.eps)) * gij;
                         xsumi[j] = self.ro * xsumi[j] + (1-self.ro) * dx * dx; // yes, xsum lags behind gsum by 1.
                         p[j] += dx;
                     } else if(self.method === "nesterov") {
@@ -134,7 +134,7 @@ class Trainer {
                             p[j] += dx; // apply corrected gradient
                         } else {
                             // vanilla sgd
-                            p[j] +=  - self.learning_rate * gij;
+                            p[j] +=  -self.learning_rate * gij;
                         }
                     }
                     g[j] = 0.0; // zero out gradient so that we can begin accumulating anew
@@ -146,10 +146,10 @@ class Trainer {
         // in future, TODO: have to completely redo the way loss is done around the network as currently
         // loss is a bit of a hack. Ideally, user should specify arbitrary number of loss functions on any layer
         // and it should all be computed correctly and automatically.
-        return {fwd_time: fwd_time, bwd_time: bwd_time,
-            l2_decay_loss: l2_decay_loss, l1_decay_loss: l1_decay_loss,
-            cost_loss: cost_loss, softmax_loss: cost_loss,
-            loss: cost_loss + l1_decay_loss + l2_decay_loss}
+        return {"fwd_time": fwd_time, "bwd_time": bwd_time,
+            "l2_decay_loss": l2_decay_loss, "l1_decay_loss": l1_decay_loss,
+            "cost_loss": cost_loss, "softmax_loss": cost_loss,
+            "loss": cost_loss + l1_decay_loss + l2_decay_loss}
     }
 }
 

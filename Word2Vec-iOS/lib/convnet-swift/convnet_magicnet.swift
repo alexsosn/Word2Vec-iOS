@@ -92,9 +92,9 @@ class MagicNet {
     // sets self.folds to a sampling of self.num_folds folds
     func sampleFolds() -> () {
         var N = self.data.length;
-        var num_train = Math.floor(self.train_ratio * N);
+        var num_train = floor(self.train_ratio * N);
         self.folds = []; // flush folds, if any
-        for(var i=0;i<self.num_folds;i++) {
+        for i in 0 ..< self.num_folds { {
             var p = randperm(N);
             self.folds.push({train_ix: p.slice(0, num_train), test_ix: p.slice(num_train, N)});
         }
@@ -109,11 +109,11 @@ class MagicNet {
         var layer_defs = [];
         layer_defs.push({type:"input", out_sx:1, out_sy:1, out_depth: input_depth});
         var nl = weightedSample([0,1,2,3], [0.2, 0.3, 0.3, 0.2]); // prefer nets with 1,2 hidden layers
-        for(var q=0;q<nl;q++) {
+        for q in 0 ..< nl { {
             var ni = randi(self.neurons_min, self.neurons_max);
             var act = ["tanh","maxout","relu"][randi(0,3)];
             if(randf(0,1)<0.5) {
-                var dp = Math.random();
+                var dp = random();
                 layer_defs.push({type:"fc", num_neurons: ni, activation: act, drop_prob: dp});
             } else {
                 layer_defs.push({type:"fc", num_neurons: ni, activation: act});
@@ -125,8 +125,8 @@ class MagicNet {
         
         // sample training hyperparameters
         var bs = randi(self.batch_size_min, self.batch_size_max); // batch size
-        var l2 = Math.pow(10, randf(self.l2_decay_min, self.l2_decay_max)); // l2 weight decay
-        var lr = Math.pow(10, randf(self.learning_rate_min, self.learning_rate_max)); // learning rate
+        var l2 = pow(10, randf(self.l2_decay_min, self.l2_decay_max)); // l2 weight decay
+        var lr = pow(10, randf(self.learning_rate_min, self.learning_rate_max)); // learning rate
         var mom = randf(self.momentum_min, self.momentum_max); // momentum. Lets just use 0.9, works okay usually ;p
         var tp = randf(0,1); // trainer type
         var trainer_def;
@@ -153,7 +153,7 @@ class MagicNet {
     // sets self.candidates with self.num_candidates candidate nets
     func sampleCandidates() -> () {
         self.candidates = []; // flush, if any
-        for(var i=0;i<self.num_candidates;i++) {
+        for i in 0 ..< self.num_candidates { {
             var cand = self.sampleCandidate();
             self.candidates.push(cand);
         }
@@ -167,7 +167,7 @@ class MagicNet {
         // step all candidates on a random data point
         var fold = self.folds[self.foldix]; // active fold
         var dataix = fold.train_ix[randi(0, fold.train_ix.length)];
-        for(var k=0;k<self.candidates.length;k++) {
+        for k in 0 ..< self.candidates.length { {
             var x = self.data[dataix];
             var l = self.labels[dataix];
             self.candidates[k].trainer.train(x, l);
@@ -179,7 +179,7 @@ class MagicNet {
             // finished evaluation of this fold. Get final validation
             // accuracies, record them, and go on to next fold.
             var val_acc = self.evalValErrors();
-            for(var k=0;k<self.candidates.length;k++) {
+            for k in 0 ..< self.candidates.length { {
                 var c = self.candidates[k];
                 c.acc.push(val_acc[k]);
                 c.accv += val_acc[k];
@@ -194,7 +194,7 @@ class MagicNet {
             if(self.foldix >= self.folds.length) {
                 // we finished all folds as well! Record these candidates
                 // and sample new ones to evaluate.
-                for(var k=0;k<self.candidates.length;k++) {
+                for k in 0 ..< self.candidates.length { {
                     self.evaluated_candidates.push(self.candidates[k]);
                 }
                 // sort evaluated candidates according to accuracy achieved
@@ -216,7 +216,7 @@ class MagicNet {
                 self.foldix = 0; // reset this
             } else {
                 // we will go on to another fold. reset all candidates nets
-                for(var k=0;k<self.candidates.length;k++) {
+                for k in 0 ..< self.candidates.length { {
                     var c = self.candidates[k];
                     var net = Net();
                     net.makeLayers(c.layer_defs);
@@ -233,10 +233,10 @@ class MagicNet {
         // as simple list
         var vals = [];
         var fold = self.folds[self.foldix]; // active fold
-        for(var k=0;k<self.candidates.length;k++) {
+        for k in 0 ..< self.candidates.length { {
             var net = self.candidates[k].net;
             var v = 0.0;
-            for(var q=0;q<fold.test_ix.length;q++) {
+            for q in 0 ..< fold.test_ix.length { {
                 var x = self.data[fold.test_ix[q]];
                 var l = self.labels[fold.test_ix[q]];
                 net.forward(x);
@@ -265,13 +265,13 @@ class MagicNet {
             eval_candidates = self.candidates;
         } else {
             // forward prop the best networks from evaluated_candidates
-            nv = Math.min(self.ensemble_size, self.evaluated_candidates.length);
+            nv = min(self.ensemble_size, self.evaluated_candidates.length);
             eval_candidates = self.evaluated_candidates
         }
         
         // forward nets of all candidates and average the predictions
         var xout, n;
-        for(var j=0;j<nv;j++) {
+        for j in 0 ..< nv { {
             var net = eval_candidates[j].net;
             var x = net.forward(data);
             if(j===0) {
@@ -279,13 +279,13 @@ class MagicNet {
                 n = x.w.length;
             } else {
                 // add it on
-                for(var d=0;d<n;d++) {
+                for d in 0 ..< n { {
                     xout.w[d] += x.w[d];
                 }
             }
         }
         // produce average
-        for(var d=0;d<n;d++) {
+        for d in 0 ..< n { {
             xout.w[d] /= nv;
         }
         return xout;
@@ -305,10 +305,10 @@ class MagicNet {
     
     func toJSON() -> () {
         // dump the top ensemble_size networks as a list
-        var nv = Math.min(self.ensemble_size, self.evaluated_candidates.length);
+        var nv = min(self.ensemble_size, self.evaluated_candidates.length);
         var json = {};
         json.nets = [];
-        for(var i=0;i<nv;i++) {
+        for i in 0 ..< nv { {
             json.nets.push(self.evaluated_candidates[i].net.toJSON());
         }
         return json;
@@ -317,7 +317,7 @@ class MagicNet {
     func fromJSON(json) -> () {
         self.ensemble_size = json.nets.length;
         self.evaluated_candidates = [];
-        for(var i=0;i<self.ensemble_size;i++) {
+        for i in 0 ..< self.ensemble_size { {
             var net = Net();
             net.fromJSON(json.nets[i]);
             var dummy_candidate = {};

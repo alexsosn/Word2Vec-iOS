@@ -1,5 +1,20 @@
 
 
+infix operator | { associativity left }
+
+func | (x: Double, y: Double) -> Int {
+    if Int(x) != 0 {
+        return Int(x)
+    } else {
+        return Int(y)
+    }
+}
+
+func | (x: Int, y: Int) -> Int {
+    return x != 0 ? x : y
+}
+
+
 // Random number utilities
 var return_v = false;
 var v_val = 0.0;
@@ -11,20 +26,20 @@ func gaussRandom() -> Double {
     }
     
     var u = 2*random()-1;
-    var v = 2*Math.random()-1;
+    var v = 2*random()-1;
     var r = u*u + v*v;
     if(r == 0 || r > 1) { return gaussRandom(); }
-    var c = Math.sqrt(-2*Math.log(r)/r);
+    var c = sqrt(-2*log(r)/r);
     v_val = v*c; // cache this
     return_v = true;
     return u*c;
 }
 
 func randf(a: Double, b: Double) -> Double {
-    return Math.random()*(b-a)+a;
+    return random()*(b-a)+a;
 }
 func randi(a: Int, b: Int) -> Int {
-    return Math.floor(Math.random()*(b-a)+a);
+    return floor(random()*(b-a)+a);
 }
 
 func randn(mu: Double, std: Double) -> Double {
@@ -37,7 +52,7 @@ func zeros(n: Int) -> [Double] {
     //    if(ArrayBuffer == null) {
     //      // lacking browser support
     //      var arr = Array(n);
-    //      for(var i=0;i<n;i++) { arr[i]= 0; }
+    //      for i in 0 ..< n { { arr[i]= 0; }
     //      return arr;
     //    } else {
     //      return Float64Array(n);
@@ -64,7 +79,7 @@ func maxmin(w: [Double]) -> [String: Double]{
     var maxi = 0;
     var mini = 0;
     var n = w.length;
-    for(var i=1;i<n;i++) {
+    for i in 1 ..< n { {
         if(w[i] > maxv) { maxv = w[i]; maxi = i; }
         if(w[i] < minv) { minv = w[i]; mini = i; }
     }
@@ -77,9 +92,9 @@ func randperm(n: Int) -> [Int]{
     j = 0,
     temp;
     var array = [];
-    for(var q=0;q<n;q++){array[q]=q;}
+    for q in 0 ..< n {{array[q]=q;}
     while (i--) {
-        j = Math.floor(Math.random() * (i+1));
+        j = floor(random() * (i+1));
         temp = array[i];
         array[i] = array[j];
         array[j] = temp;
@@ -107,7 +122,7 @@ func getopt(opt: [String: AnyObject], field_name: String, default_value: AnyObje
 func getopt(opt: [String: AnyObject], field_name: [String], default_value: AnyObject) -> AnyObject{
     // assume we are given a list of string instead
     var ret = default_value;
-    for(var i=0;i<field_name.length;i++) {
+    for i in 0 ..< field_name.length { {
         var f = field_name[i];
         if (opt[f] != null) {
             ret = opt[f]; // overwrite return value

@@ -7,19 +7,19 @@
 func augment(V: Vol, crop:Int, dx: Int, dy: Int, fliplr: Bool) {
     // note assumes square outputs of size crop x crop
     if(fliplr==null) { var fliplr = false; }
-    if(dx==null) { var dx = global.randi(0, V.sx - crop); }
-    if(dy==null) { var dy = global.randi(0, V.sy - crop); }
+    if(dx==null) { var dx = randi(0, V.sx - crop); }
+    if(dy==null) { var dy = randi(0, V.sy - crop); }
     
     // randomly sample a crop in the input volume
     var W;
     if(crop !== V.sx || dx!==0 || dy!==0) {
         W = Vol(crop, crop, V.depth, 0.0);
-        for(var x=0;x<crop;x++) {
-            for(var y=0;y<crop;y++) {
+        for x in 0 ..< crop { {
+            for y in 0 ..< crop { {
                 if(x+dx<0 || x+dx>=V.sx || y+dy<0 || y+dy>=V.sy) {
                     continue; // oob
                 }
-                for(var d=0;d<V.depth;d++) {
+                for d in 0 ..< V.depth { {
                     W.set(x,y,d,V.get(x+dx,y+dy,d)); // copy data over
                 }
             }
@@ -31,9 +31,9 @@ func augment(V: Vol, crop:Int, dx: Int, dy: Int, fliplr: Bool) {
     if(fliplr) {
         // flip volume horizontally
         var W2 = W.cloneAndZero();
-        for(var x=0;x<W.sx;x++) {
-            for(var y=0;y<W.sy;y++) {
-                for(var d=0;d<W.depth;d++) {
+        for x in 0 ..< W.sx { {
+            for y in 0 ..< W.sy { {
+                for d in 0 ..< W.depth { {
                     W2.set(x,y,d,W.get(W.sx - x - 1,y,d)); // copy data over
                 }
             }
@@ -81,7 +81,7 @@ func img_to_vol(img: UIImage, convert_grayscale: Bool = false) -> Vol {
     ////////////////////////////
     // prepare the input: get pixels and normalize them
     var pv = []
-    for(var i=0;i<width*height;i++) {
+    for i in 0 ..< width*height { {
         pv.push(p[i]/255.0-0.5); // normalize image pixels to [-0.5, 0.5]
     }
     
@@ -91,8 +91,8 @@ func img_to_vol(img: UIImage, convert_grayscale: Bool = false) -> Vol {
     if(convert_grayscale) {
         // flatten into depth=1 array
         var x1 = Vol(width, height, 1, 0.0);
-        for(var i=0;i<width;i++) {
-            for(var j=0;j<height;j++) {
+        for i in 0 ..< width { {
+            for j in 0 ..< height { {
                 x1.set(i,j,0,x.get(i,j,0));
             }
         }
@@ -102,15 +102,14 @@ func img_to_vol(img: UIImage, convert_grayscale: Bool = false) -> Vol {
     return x;
 }
 
+public struct PixelData {
+    var a: UInt8
+    var r: UInt8
+    var g: UInt8
+    var b: UInt8
+}
 
 func vol_to_img(){
-    public struct PixelData {
-        var a: UInt8
-        var r: UInt8
-        var g: UInt8
-        var b: UInt8
-    }
-    
     var pixels = [PixelData]()
     
     let red = PixelData(a: 255, r: 255, g: 0, b: 0)

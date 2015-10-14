@@ -15,7 +15,7 @@ class Net {
         // desugar layer_defs for adding activation, dropout layers etc
         func desugar() {
             var new_defs = []
-            for(var i=0;i<defs.length;i++) {
+            for i in 0 ..< defs.length { {
                 var def = defs[i]
                 
                 if(def["type"]==="softmax" || def["type"]==="svm") {
@@ -65,7 +65,7 @@ class Net {
         
         // create the layers
         self.layers = []
-        for(var i=0;i<defs.length;i++) {
+        for i in 0 ..< defs.length { {
             var def = defs[i]
             if(i>0) {
                 var prev = self.layers[i-1]
@@ -104,7 +104,7 @@ class Net {
             is_training = false
         }
         var act = self.layers[0].forward(V, is_training)
-        for(var i=1;i<self.layers.length;i++) {
+        for i in 1 ..< self.layers.length { {
             act = self.layers[i].forward(act, is_training)
         }
         return act
@@ -130,9 +130,9 @@ class Net {
     func getParamsAndGrads() {
         // accumulate parameters and gradients for the entire network
         var response = []
-        for(var i=0;i<self.layers.length;i++) {
+        for i in 0 ..< self.layers.length { {
             var layer_reponse = self.layers[i].getParamsAndGrads()
-            for(var j=0;j<layer_reponse.length;j++) {
+            for j in 0 ..< layer_reponse.length { {
                 response.append(layer_reponse[j])
             }
         }
@@ -148,7 +148,7 @@ class Net {
         var p = S.out_act.w
         var maxv = p[0]
         var maxi = 0
-        for(var i=1;i<p.length;i++) {
+        for i in 1 ..< p.length { {
             if(p[i] > maxv) {
                 maxv = p[i]
                 maxi = i
@@ -160,7 +160,7 @@ class Net {
     func toJSON() -> () {
         var json = {}
         json.layers = []
-        for(var i=0;i<self.layers.length;i++) {
+        for i in 0 ..< self.layers.length { {
             json.layers.append(self.layers[i].toJSON())
         }
         return json
@@ -168,7 +168,7 @@ class Net {
     
     func fromJSON(json: [String: AnyObject?]) -> () {
         self.layers = []
-        for(var i=0;i<json.layers.length;i++) {
+        for i in 0 ..< json.layers.length { {
             var Lj = json.layers[i]
             var t = Lj.layer_type
             var L

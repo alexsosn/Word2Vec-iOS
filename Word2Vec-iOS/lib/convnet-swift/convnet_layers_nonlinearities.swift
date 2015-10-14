@@ -8,9 +8,9 @@ class ReluLayer: Layer {
         var opt = opt || {};
         
         // computed
-        self.out_sx = opt.in_sx;
-        self.out_sy = opt.in_sy;
-        self.out_depth = opt.in_depth;
+        self.out_sx = opt["in_sx"];
+        self.out_sy = opt["in_sy"];
+        self.out_depth = opt["in_depth"];
         self.layer_type = "relu";
     }
     
@@ -19,7 +19,7 @@ class ReluLayer: Layer {
         var V2 = V.clone();
         var N = V.w.length;
         var V2w = V2.w;
-        for(var i=0;i<N;i++) {
+        for i in 0 ..< N { {
             if(V2w[i] < 0) { V2w[i] = 0; } // threshold at 0
         }
         self.out_act = V2;
@@ -30,8 +30,8 @@ class ReluLayer: Layer {
         var V = self.in_act; // we need to set dw of this
         var V2 = self.out_act;
         var N = V.w.length;
-        V.dw = global.zeros(N); // zero out gradient wrt data
-        for(var i=0;i<N;i++) {
+        V.dw = zeros(N); // zero out gradient wrt data
+        for i in 0 ..< N { {
             if(V2.w[i] <= 0) { V.dw[i] = 0; } // threshold
             else V.dw[i] = V2.dw[i];
         }
@@ -67,20 +67,20 @@ class SigmoidLayer: Layer {
         var opt = opt || {};
         
         // computed
-        self.out_sx = opt.in_sx;
-        self.out_sy = opt.in_sy;
-        self.out_depth = opt.in_depth;
+        self.out_sx = opt["in_sx"];
+        self.out_sy = opt["in_sy"];
+        self.out_depth = opt["in_depth"];
         self.layer_type = "sigmoid";
     }
-    
+    // http://memkite.com/blog/2014/12/15/data-parallel-programming-with-metal-and-swift-for-iphoneipad-gpu/
     func forward(V: Vol, is_training: Bool) -> () {
         self.in_act = V;
         var V2 = V.cloneAndZero();
         var N = V.w.length;
         var V2w = V2.w;
         var Vw = V.w;
-        for(var i=0;i<N;i++) {
-            V2w[i] = 1.0/(1.0+Math.exp(-Vw[i]));
+        for i in 0 ..< N { {
+            V2w[i] = 1.0/(1.0+exp(-Vw[i]));
         }
         self.out_act = V2;
         return self.out_act;
@@ -90,8 +90,8 @@ class SigmoidLayer: Layer {
         var V = self.in_act; // we need to set dw of this
         var V2 = self.out_act;
         var N = V.w.length;
-        V.dw = global.zeros(N); // zero out gradient wrt data
-        for(var i=0;i<N;i++) {
+        V.dw = zeros(N); // zero out gradient wrt data
+        for i in 0 ..< N { {
             var v2wi = V2.w[i];
             V.dw[i] =  v2wi * (1.0 - v2wi) * V2.dw[i];
         }
@@ -128,15 +128,15 @@ class MaxoutLayer: Layer {
         var opt = opt || {};
         
         // required
-        self.group_size = opt.group_size != null ? opt.group_size : 2;
+        self.group_size = opt["group_size"] != null ? opt["group_size"] : 2;
         
         // computed
-        self.out_sx = opt.in_sx;
-        self.out_sy = opt.in_sy;
-        self.out_depth = Math.floor(opt.in_depth / self.group_size);
+        self.out_sx = opt["in_sx"];
+        self.out_sy = opt["in_sy"];
+        self.out_depth = floor(opt["in_depth"] / self.group_size);
         self.layer_type = "maxout";
         
-        self.switches = global.zeros(self.out_sx*self.out_sy*self.out_depth); // useful for backprop
+        self.switches = zeros(self.out_sx*self.out_sy*self.out_depth); // useful for backprop
     }
     
     func forward(V: Vol, is_training: Bool) -> () {
@@ -148,11 +148,11 @@ class MaxoutLayer: Layer {
         // to worry about keeping track of x,y,d coordinates inside
         // input volumes. In convnets we do :(
         if(self.out_sx === 1 && self.out_sy === 1) {
-            for(var i=0;i<N;i++) {
+            for i in 0 ..< N { {
                 var ix = i * self.group_size; // base index offset
                 var a = V.w[ix];
                 var ai = 0;
-                for(var j=1;j<self.group_size;j++) {
+                for j in 1 ..< self.group_size { {
                     var a2 = V.w[ix+j];
                     if(a2 > a) {
                         a = a2;
@@ -164,13 +164,13 @@ class MaxoutLayer: Layer {
             }
         } else {
             var n=0; // counter for switches
-            for(var x=0;x<V.sx;x++) {
-                for(var y=0;y<V.sy;y++) {
-                    for(var i=0;i<N;i++) {
+            for x in 0 ..< V.sx { {
+                for y in 0 ..< V.sy { {
+                    for i in 0 ..< N { {
                         var ix = i * self.group_size;
                         var a = V.get(x, y, ix);
                         var ai = 0;
-                        for(var j=1;j<self.group_size;j++) {
+                        for j in 1 ..< self.group_size { {
                             var a2 = V.get(x, y, ix+j);
                             if(a2 > a) {
                                 a = a2;
@@ -193,20 +193,20 @@ class MaxoutLayer: Layer {
         var V = self.in_act; // we need to set dw of this
         var V2 = self.out_act;
         var N = self.out_depth;
-        V.dw = global.zeros(V.w.length); // zero out gradient wrt data
+        V.dw = zeros(V.w.length); // zero out gradient wrt data
         
         // pass the gradient through the appropriate switch
         if(self.out_sx === 1 && self.out_sy === 1) {
-            for(var i=0;i<N;i++) {
+            for i in 0 ..< N { {
                 var chain_grad = V2.dw[i];
                 V.dw[self.switches[i]] = chain_grad;
             }
         } else {
             // bleh okay, lets do this the hard way
             var n=0; // counter for switches
-            for(var x=0;x<V2.sx;x++) {
-                for(var y=0;y<V2.sy;y++) {
-                    for(var i=0;i<N;i++) {
+            for x in 0 ..< V2.sx { {
+                for y in 0 ..< V2.sy { {
+                    for i in 0 ..< N { {
                         var chain_grad = V2.get_grad(x,y,i);
                         V.set_grad(x,y,self.switches[n],chain_grad);
                         n++;
@@ -236,13 +236,13 @@ class MaxoutLayer: Layer {
         self.out_sy = json.out_sy;
         self.layer_type = json.layer_type;
         self.group_size = json.group_size;
-        self.switches = global.zeros(self.group_size);
+        self.switches = zeros(self.group_size);
     }
 }
 
 // a helper function, since tanh is not yet part of ECMAScript. Will be in v6.
 function tanh(x) {
-    var y = Math.exp(2 * x);
+    var y = exp(2 * x);
     return (y - 1) / (y + 1);
 }
 // Implements Tanh nnonlinearity elementwise
@@ -256,9 +256,9 @@ class TanhLayer: Layer {
         var opt = opt || {};
         
         // computed
-        self.out_sx = opt.in_sx;
-        self.out_sy = opt.in_sy;
-        self.out_depth = opt.in_depth;
+        self.out_sx = opt["in_sx"];
+        self.out_sy = opt["in_sy"];
+        self.out_depth = opt["in_depth"];
         self.layer_type = "tanh";
     }
     
@@ -266,7 +266,7 @@ class TanhLayer: Layer {
         self.in_act = V;
         var V2 = V.cloneAndZero();
         var N = V.w.length;
-        for(var i=0;i<N;i++) {
+        for i in 0 ..< N { {
             V2.w[i] = tanh(V.w[i]);
         }
         self.out_act = V2;
@@ -277,8 +277,8 @@ class TanhLayer: Layer {
         var V = self.in_act; // we need to set dw of this
         var V2 = self.out_act;
         var N = V.w.length;
-        V.dw = global.zeros(N); // zero out gradient wrt data
-        for(var i=0;i<N;i++) {
+        V.dw = zeros(N); // zero out gradient wrt data
+        for i in 0 ..< N { {
             var v2wi = V2.w[i];
             V.dw[i] = (1.0 - v2wi * v2wi) * V2.dw[i];
         }

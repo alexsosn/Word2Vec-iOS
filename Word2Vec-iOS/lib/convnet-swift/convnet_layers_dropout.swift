@@ -7,17 +7,18 @@
 // todo: make more efficient.
 
 class DropoutLayer: Layer {
-    init (){}
-    convenience init(opt: Options) {
+    var dropped: Val
+    
+    convenience init(opt: [String: AnyObject]) {
         var opt = opt || {};
         
         // computed
-        self.out_sx = opt.in_sx;
-        self.out_sy = opt.in_sy;
-        self.out_depth = opt.in_depth;
+        self.out_sx = opt["in_sx"];
+        self.out_sy = opt["in_sy"];
+        self.out_depth = opt["in_depth"];
         self.layer_type = "dropout";
-        self.drop_prob = opt.drop_prob != null ? opt.drop_prob : 0.5;
-        self.dropped = global.zeros(self.out_sx*self.out_sy*self.out_depth);
+        self.drop_prob = opt["drop_prob"] != null ? opt["drop_prob"] : 0.5;
+        self.dropped = zeros(self.out_sx*self.out_sy*self.out_depth);
     }
     
     func forward(V: Vol, is_training: Bool) -> () {
@@ -27,13 +28,13 @@ class DropoutLayer: Layer {
         var N = V.w.length;
         if(is_training) {
             // do dropout
-            for(var i=0;i<N;i++) {
-                if(Math.random()<self.drop_prob) { V2.w[i]=0; self.dropped[i] = true; } // drop!
+            for i in 0 ..< N { {
+                if(random()<self.drop_prob) { V2.w[i]=0; self.dropped[i] = true; } // drop!
                 else {self.dropped[i] = false;}
             }
         } else {
             // scale the activations during prediction
-            for(var i=0;i<N;i++) { V2.w[i]*=self.drop_prob; }
+            for i in 0 ..< N { { V2.w[i]*=self.drop_prob; }
         }
         self.out_act = V2;
         return self.out_act; // dummy identity function for now
@@ -43,8 +44,8 @@ class DropoutLayer: Layer {
         var V = self.in_act; // we need to set dw of this
         var chain_grad = self.out_act;
         var N = V.w.length;
-        V.dw = global.zeros(N); // zero out gradient wrt data
-        for(var i=0;i<N;i++) {
+        V.dw = zeros(N); // zero out gradient wrt data
+        for i in 0 ..< N { {
             if(!(self.dropped[i])) {
                 V.dw[i] = chain_grad.dw[i]; // copy over the gradient
             }

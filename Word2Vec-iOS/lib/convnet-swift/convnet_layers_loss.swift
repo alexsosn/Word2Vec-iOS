@@ -17,7 +17,7 @@
         var opt = opt || {};
         
         // computed
-        self.num_inputs = opt.in_sx * opt.in_sy * opt.in_depth;
+        self.num_inputs = opt["in_sx"] * opt["in_sy"] * opt["in_depth"];
         self.out_depth = self.num_inputs;
         self.out_sx = 1;
         self.out_sy = 1;
@@ -32,21 +32,21 @@
         // compute max activation
         var as = V.w;
         var amax = V.w[0];
-        for(var i=1;i<self.out_depth;i++) {
+        for i in 1 ..< self.out_depth { {
             if(as[i] > amax) { amax = as[i]; }
         }
         
         // compute exponentials (carefully to not blow up)
-        var es = global.zeros(self.out_depth);
+        var es = zeros(self.out_depth);
         var esum = 0.0;
-        for(var i=0;i<self.out_depth;i++) {
-            var e = Math.exp(as[i] - amax);
+        for i in 0 ..< self.out_depth { {
+            var e = exp(as[i] - amax);
             esum += e;
             es[i] = e;
         }
         
         // normalize and output to sum to one
-        for(var i=0;i<self.out_depth;i++) {
+        for i in 0 ..< self.out_depth { {
             es[i] /= esum;
             A.w[i] = es[i];
         }
@@ -60,16 +60,16 @@
         
         // compute and accumulate gradient wrt weights and bias of this layer
         var x = self.in_act;
-        x.dw = global.zeros(x.w.length); // zero out the gradient of input Vol
+        x.dw = zeros(x.w.length); // zero out the gradient of input Vol
         
-        for(var i=0;i<self.out_depth;i++) {
+        for i in 0 ..< self.out_depth { {
             var indicator = i === y ? 1.0 : 0.0;
             var mul = -(indicator - self.es[i]);
             x.dw[i] = mul;
         }
         
         // loss is the class negative log likelihood
-        return -Math.log(self.es[y]);
+        return -log(self.es[y]);
     }
     
     func getParamsAndGrads() -> () {
@@ -105,7 +105,7 @@
         var opt = opt || {};
         
         // computed
-        self.num_inputs = opt.in_sx * opt.in_sy * opt.in_depth;
+        self.num_inputs = opt["in_sx"] * opt["in_sy"] * opt["in_depth"];
         self.out_depth = self.num_inputs;
         self.out_sx = 1;
         self.out_sy = 1;
@@ -125,10 +125,10 @@
         
         // compute and accumulate gradient wrt weights and bias of this layer
         var x = self.in_act;
-        x.dw = global.zeros(x.w.length); // zero out the gradient of input Vol
+        x.dw = zeros(x.w.length); // zero out the gradient of input Vol
         var loss = 0.0;
         if(y instanceof Array || y instanceof Float64Array) {
-            for(var i=0;i<self.out_depth;i++) {
+            for i in 0 ..< self.out_depth { {
                 var dy = x.w[i] - y[i];
                 x.dw[i] = dy;
                 loss += 0.5*dy*dy;
@@ -180,7 +180,7 @@
         var opt = opt || {};
         
         // computed
-        self.num_inputs = opt.in_sx * opt.in_sy * opt.in_depth;
+        self.num_inputs = opt["in_sx"] * opt["in_sy"] * opt["in_depth"];
         self.out_depth = self.num_inputs;
         self.out_sx = 1;
         self.out_sy = 1;
@@ -197,7 +197,7 @@
         
         // compute and accumulate gradient wrt weights and bias of this layer
         var x = self.in_act;
-        x.dw = global.zeros(x.w.length); // zero out the gradient of input Vol
+        x.dw = zeros(x.w.length); // zero out the gradient of input Vol
         
         // we're using structured loss here, which means that the score
         // of the ground truth should be higher than the score of any other
@@ -205,7 +205,7 @@
         var yscore = x.w[y]; // score of ground truth
         var margin = 1.0;
         var loss = 0.0;
-        for(var i=0;i<self.out_depth;i++) {
+        for i in 0 ..< self.out_depth { {
             if(y === i) { continue; }
             var ydiff = -yscore + x.w[i] + margin;
             if(ydiff > 0) {
