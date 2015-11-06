@@ -100,7 +100,7 @@ class Word2VecModel: NSObject {
     }
     
     func distance(word: String, numberOfClosest: Int?) -> [String : Float]? {
-        var error: NSErrorPointer = nil
+        let error: NSErrorPointer = nil
         return Distance(outputFile, word, 40, error) as! [String : Float]?
     }
 }

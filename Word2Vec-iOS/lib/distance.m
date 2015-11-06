@@ -28,7 +28,13 @@ const long long entryMaxLength = 50;              // max length of vocabulary en
  Usage: ./distance <FILE>\nwhere FILE contains word projections in the BINARY FORMAT
  */
 
-NSDictionary <NSString *, NSNumber *>  * _Nullable  Distance(NSURL * _Nonnull fileURL, NSString * _Nonnull word, NSNumber *numberOfClosest, NSError ** error) {
+//@implementation W2VDistance
+//
+//
+//
+//@end
+
+NSDictionary <NSString *, NSNumber *>  * _Nullable  Distance(NSURL * _Nonnull fileURL, NSString * _Nonnull word, NSNumber * _Nullable numberOfClosest, NSError ** error) {
     
     NSMutableDictionary *result = [NSMutableDictionary dictionary];
     
@@ -91,7 +97,7 @@ NSDictionary <NSString *, NSNumber *>  * _Nullable  Distance(NSURL * _Nonnull fi
     //    while (1) {
     for (a = 0; a < numberToShow; a++) bestDistances[a] = 0;
     for (a = 0; a < numberToShow; a++) bestWords[a][0] = 0;
-    NSLog(@"Enter word or sentence (EXIT to break): ");
+//    NSLog(@"Enter word or sentence (EXIT to break): ");
     a = 0;
     while (1) {
         st1[a] = [word cStringUsingEncoding:NSUTF8StringEncoding][a];//fgetc(stdin);
@@ -128,14 +134,14 @@ NSDictionary <NSString *, NSNumber *>  * _Nullable  Distance(NSURL * _Nonnull fi
         if (b == wordsTotalNum) b = -1;
         bi[a] = b;
         
-        NSLog(@"\nWord: %s  Position in vocabulary: %lld\n", st[a], bi[a]);
+//        NSLog(@"\nWord: %s  Position in vocabulary: %lld\n", st[a], bi[a]);
         if (b == -1) {
             NSLog(@"Out of dictionary word!\n");
             break;
         }
     }
     //        if (b == -1) continue;
-    NSLog(@"\n                                              Word       Cosine distance\n------------------------------------------------------------------------\n");
+//    NSLog(@"\n                                              Word       Cosine distance\n------------------------------------------------------------------------\n");
     for (a = 0; a < size; a++) vec[a] = 0;
     for (b = 0; b < cn; b++) {
         if (bi[b] == -1) continue;
@@ -176,6 +182,9 @@ NSDictionary <NSString *, NSNumber *>  * _Nullable  Distance(NSURL * _Nonnull fi
         //             NSLog(@"%50s\t\t%f\n", bestWords[a], bestDistances[a]);
     }
     //    }
-    
+    free(M);
+    free(vocab);
+    free(*bestWords);
+//    free(st1);
     return result;
 }
