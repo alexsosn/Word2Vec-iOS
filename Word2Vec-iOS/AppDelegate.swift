@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  Word2Vec-iOS
 //
-//  Created by Tanya on 10/8/15.
+//  Created by Alex on 10/8/15.
 //  Copyright © 2015 OWL. All rights reserved.
 //
 
