@@ -1,28 +1,26 @@
 
-#ifndef WORD2VEC_H
-#define WORD2VEC_H
-
 #import <Foundation/Foundation.h>
 
-void Prepare(NSURL * _Nonnull trainFile,
-             NSURL * _Nonnull outputFile,
-             NSURL * _Nullable saveVocabFile,
-             NSURL * _Nullable readVocabFile,
-             NSNumber * _Nullable wordVectorSize,
-             NSNumber * _Nullable debug,
-             NSNumber * _Nullable saveToBinary,
-             NSNumber * _Nullable continuousBagOfWords,
-             NSNumber * _Nullable startingLearningRate,
-             NSNumber * _Nullable windowLength,
-             NSNumber * _Nullable wordsOccurrenceThreshold,
-             NSNumber * _Nullable hierarchicalSoftmax,
-             NSNumber * _Nullable negativeExamples,
-             NSNumber * _Nullable threads,
-             NSNumber * _Nullable trainingIterations,
-             NSNumber * _Nullable minCount,
-             NSNumber * _Nullable classesNumber
-             ) ;
+@interface Word2Vec : NSObject
 
-void TrainModel();
++ (void)prapareWithTrainFile:(NSURL * _Nonnull) trainFile
+                  outputFile:(NSURL * _Nonnull) outputFile
+               saveVocabFile:(NSURL * _Nullable) saveVocabFile
+               readVocabFile:(NSURL * _Nullable) readVocabFile
+              wordVectorSize:(NSNumber * _Nullable) wordVectorSize
+                       debug:(NSNumber * _Nullable) debug
+                saveToBinary:(NSNumber * _Nullable) saveToBinary
+        continuousBagOfWords:(NSNumber * _Nullable) continuousBagOfWords
+        startingLearningRate:(NSNumber * _Nullable) startingLearningRate
+                windowLength:(NSNumber * _Nullable) windowLength
+    wordsOccurrenceThreshold:(NSNumber * _Nullable) wordsOccurrenceThreshold
+         hierarchicalSoftmax:(NSNumber * _Nullable) hierarchicalSoftmax
+            negativeExamples:(NSNumber * _Nullable) negativeExamples
+                     threads:(NSNumber * _Nullable) threads
+          trainingIterations:(NSNumber * _Nullable) trainingIterations
+                    minCount:(NSNumber * _Nullable) minCount
+               classesNumber:(NSNumber * _Nullable) classesNumber;
 
-#endif
++ (void)trainModel;
+
+@end

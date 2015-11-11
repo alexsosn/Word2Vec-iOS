@@ -1,14 +1,15 @@
 
-#ifndef DISTANCE_H
-#define DISTANCE_H
-
 #import <Foundation/Foundation.h>
 
-NSDictionary <NSString *, NSNumber *>  * _Nullable  Distance(NSURL * _Nonnull fileURL, NSString * _Nonnull word, NSNumber * _Nullable numberOfClosest, NSError ** error);
+@interface W2VDistance : NSObject
 
-//@interface W2VDistance : NSObject
-//
-//@end
+- (void)loadBinaryVectorFile:(NSURL * _Nonnull) fileURL
+                       error:(NSError ** _Nullable) error;
 
+- (NSDictionary <NSString *, NSNumber *>  * _Nullable)closestToWord:(NSString * _Nonnull) word
+                                                    numberOfClosest:(NSNumber * _Nullable) numberOfClosest;
 
-#endif
+- (NSDictionary <NSString *, NSNumber *>  * _Nullable)analogyToPhrase:(NSString * _Nonnull) phrase
+                                                      numberOfClosest:(NSNumber * _Nullable) numberOfClosest;
+
+@end

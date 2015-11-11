@@ -37,9 +37,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        model.outputFile = NSBundle.mainBundle().URLForResource("GoogleNews-vectors-negative300", withExtension: "bin")
         let synth = AVSpeechSynthesizer()
         
-        let init_word = "cat"
+        let init_word = "man"
         var acc : [String] = [init_word]
         let result = model.distance(init_word, numberOfClosest: 10)
+        print(result)
         var closest = result?.reduce(("", 0.0), combine: {
             (prew: (String, Float), this: (String, Float)) -> (String, Float) in
             return max(prew.1, this.1) == prew.1 ? prew : this
@@ -51,30 +52,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        utterance.voice = voice
         synth.speakUtterance(utterance)
         
-//        for _ in 0..<100 {
-//            var result = model.distance(closest!.0, numberOfClosest: 1)
-//            for _ in 0 ..< result!.count {
-//                closest = result!.reduce(("", 0.0), combine: {
-//                    (prew: (String, Float), this: (String, Float)) -> (String, Float) in
-//                    return max(prew.1, this.1) == prew.1 ? prew : this
-//                })
-//                let new_association = closest!.0
-//
-//                if acc.contains(new_association) {
-//                    result?.removeValueForKey(new_association)
-//                } else {
-//                    acc.append(new_association)
-//                    break
-//                }
-//            }
-//            print(acc.last!)
-//            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), { () -> Void in
-//                let utterance = AVSpeechUtterance(string: acc.last!)
-//                //            utterance.voice = voice
-//                synth.speakUtterance(utterance)
-//            })
-//
-//        }
+        for _ in 0..<100 {
+            var result = model.distance(closest!.0, numberOfClosest: 10)
+            for _ in 0 ..< result!.count {
+                closest = result!.reduce(("", 0.0), combine: {
+                    (prew: (String, Float), this: (String, Float)) -> (String, Float) in
+                    return max(prew.1, this.1) == prew.1 ? prew : this
+                })
+                let new_association = closest!.0
+
+                if acc.contains(new_association) {
+                    result?.removeValueForKey(new_association)
+                } else {
+                    acc.append(new_association)
+                    break
+                }
+            }
+            print(acc.last!)
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), { () -> Void in
+                let utterance = AVSpeechUtterance(string: acc.last!)
+                //            utterance.voice = voice
+                synth.speakUtterance(utterance)
+            })
+
+        }
         
         // Override point for customization after application launch.
         return true

@@ -73,34 +73,50 @@ class Word2VecModel: NSObject {
     var saveVocabFile: NSURL?
     var readVocabFile: NSURL?
     var continuousBagOfWords: Bool = true
+    var distanceModel: W2VDistance?
     
     func train() -> () {
+        Word2Vec.prapareWithTrainFile(trainFile,
+            outputFile: outputFile,
+            saveVocabFile: saveVocabFile,
+            readVocabFile: readVocabFile,
+            wordVectorSize: wordVectorSize,
+            debug: debug,
+            saveToBinary: saveToBinary,
+            continuousBagOfWords: continuousBagOfWords,
+            startingLearningRate: startingLearningRate,
+            windowLength: windowLength,
+            wordsOccurrenceThreshold: wordsOccurrenceThreshold,
+            hierarchicalSoftmax: hierarchicalSoftmax,
+            negativeExamples: negativeExamples,
+            threads: threads,
+            trainingIterations: trainingIterations,
+            minCount: minCount,
+            classesNumber: classesNumber)
 
-        Prepare(
-            trainFile,
-            outputFile,
-            saveVocabFile,
-            readVocabFile,
-            wordVectorSize,
-            debug,
-            saveToBinary,
-            continuousBagOfWords,
-            startingLearningRate,
-            windowLength,
-            wordsOccurrenceThreshold,
-            hierarchicalSoftmax,
-            negativeExamples,
-            threads,
-            trainingIterations,
-            minCount,
-            classesNumber
-        )
-        
-        TrainModel()
+        Word2Vec.trainModel()
     }
     
     func distance(word: String, numberOfClosest: Int?) -> [String : Float]? {
         let error: NSErrorPointer = nil
-        return Distance(outputFile, word, 40, error) as! [String : Float]?
+        let closest = numberOfClosest ?? 40
+        if distanceModel == nil {
+            distanceModel = W2VDistance()
+            distanceModel!.loadBinaryVectorFile(outputFile, error: error)
+        }
+        let distances = distanceModel!.closestToWord(word, numberOfClosest: closest)
+        return distances as! [String : Float]?
+    }
+    
+    func analogy (words: String, numberOfClosest: Int?) -> [String : Float]? {
+        let error: NSErrorPointer = nil
+        let closest = numberOfClosest ?? 40
+        if distanceModel == nil {
+            distanceModel = W2VDistance()
+            distanceModel!.loadBinaryVectorFile(outputFile, error: error)
+        }
+        
+        let distances = distanceModel!.analogyToPhrase(words, numberOfClosest: closest)
+        return distances as! [String : Float]?
     }
 }
